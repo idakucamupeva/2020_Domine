@@ -13,6 +13,21 @@ type Dominoe struct{
 	right int
 }
 
+type Player struct{
+	name string
+	deck map[int]*Dominoe
+}
+
+func newPlayer(name string, deck map[int]*Dominoe) *Player{
+	return &Player{
+		name: name,
+		deck: deck,
+
+	}
+
+}
+
+
 func main(){
 	var dominoesMap = make(map[int]*Dominoe)
 	var counter int
