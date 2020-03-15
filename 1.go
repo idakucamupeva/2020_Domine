@@ -13,12 +13,15 @@ type Dominoe struct{
 	right int
 }
 
+
 type Player struct{
 	name string
-	deck map[int]*Dominoe
+	deck []Dominoe 
 }
 
-func newPlayer(name string, deck map[int]*Dominoe) *Player{
+
+//player constructor
+func newPlayer(name string, deck []Dominoe) *Player{
 	return &Player{
 		name: name,
 		deck: deck,
@@ -35,8 +38,7 @@ func main(){
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	broj := r1.Intn(28)
-	var player1 []int
-	player1 = append(player1,broj)
+	
 	for i:=0; i < 7; i++{
 		for j:=i; j < 7; j++{
 			dominoesMap[counter] = new (Dominoe)
@@ -45,10 +47,12 @@ func main(){
 			counter++
 		}
 	}
+	
+
+	var array []Dominoe
+	var player1 *Player = newPlayer("Stefan", array)
+
+	fmt.Println("")
 
 
-	for i:=0; i < counter; i++{
-		fmt.Print(*dominoesMap[i], "   ")
-	}
-	fmt.Print(player1[0])
 }
