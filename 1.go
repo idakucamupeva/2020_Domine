@@ -48,9 +48,10 @@ func main(){
 		}
 	}
 	
+	fmt.Println(broj)
 
-	var array []Dominoe
-	var player1 *Player = newPlayer("Stefan", array)
+	//var array []Dominoe
+	//var player1 *Player = newPlayer("Stefan", array)
 
 	fmt.Println("")
 
