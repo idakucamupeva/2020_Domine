@@ -1,9 +1,16 @@
 package main
 
-import(
+
+import (
+	"github.com/veandco/go-sdl2/sdl"
 	"fmt"
 	"math/rand"
 	"time"
+)
+
+const (
+	screenWidth = 600
+	screenHeight = 800
 )
 
 
@@ -32,6 +39,32 @@ func newPlayer(name string, deck []Dominoe) *Player{
 
 
 func main(){
+
+	if err := sdl.Init(sdl.INIT_EVERYTHING); err != nil{
+		fmt.Println("initializing SDL:", err)
+		return
+	}
+
+	window, err := sdl.CreateWindow(  
+		"MATF Dominoes",
+		sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
+		screenWidth, screenHeight,
+		sdl.WINDOW_OPENGL)
+	if err != nil {
+		fmt.Println("initializing window:", err)
+		return
+	}
+
+	defer window.Destroy()
+
+	renderer, err := sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
+	if err != nil {
+		fmt.Println("initializing renderer:", err)
+		return
+	}
+
+	defer renderer.Destroy()
+
 	var dominoesMap = make(map[int]*Dominoe)
 	var counter int
 	counter = 0
@@ -47,7 +80,27 @@ func main(){
 			counter++
 		}
 	}
-	
+
+	for{
+		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent(){
+			switch event.(type) {
+			case *sdl.QuitEvent:
+				return 
+				
+			}
+		}
+		renderer.SetDrawColor(255, 255, 255, 255)
+		renderer.Clear()
+
+
+		dominoe1 := newDominoe(renderer, "BMPdominoes/6-6.bmp")
+		dominoe1.draw(renderer)
+
+		renderer.Present()
+	}
+
+
+
 	fmt.Println(broj)
 
 	//var array []Dominoe
