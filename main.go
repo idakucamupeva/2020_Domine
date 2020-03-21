@@ -2,8 +2,8 @@ package main
 
 
 import (
-	"github.com/veandco/go-sdl2/sdl"
 	"fmt"
+	"github.com/veandco/go-sdl2/sdl"
 	"math/rand"
 	"time"
 	"strconv"
@@ -27,9 +27,7 @@ func newPlayer(name string, deck []domino) *Player{
 	return &Player{
 		name: name,
 		deck: deck,
-
 	}
-
 }
 
 
@@ -109,7 +107,7 @@ func main(){
 	}
 
 
-
+	fmt.Print("hahahha")
 	fmt.Println(broj)
 
 	//var array []Domino
