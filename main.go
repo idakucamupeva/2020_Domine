@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+	"strconv"
 )
 
 const (
@@ -15,20 +16,14 @@ const (
 
 
 
-type Dominoe struct{
-	left int
-	right int
-}
-
-
 type Player struct{
 	name string
-	deck []Dominoe 
+	deck []domino 
 }
 
 
 //player constructor
-func newPlayer(name string, deck []Dominoe) *Player{
+func newPlayer(name string, deck []domino) *Player{
 	return &Player{
 		name: name,
 		deck: deck,
@@ -65,19 +60,24 @@ func main(){
 
 	defer renderer.Destroy()
 
-	var dominoesMap = make(map[int]*Dominoe)
+	var dominoesMap = make(map[int]domino)
+	
+	//domino's number
 	var counter int
 	counter = 0
+	
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	broj := r1.Intn(28)
 	
+	startStr := "BMPdominoes/"
+	
 	for i:=0; i < 7; i++{
 		for j:=i; j < 7; j++{
-			dominoesMap[counter] = new (Dominoe)
-			dominoesMap[counter].left = i
-			dominoesMap[counter].right = j
+			startStr += strconv.Itoa(i) + "-" + strconv.Itoa(j) + ".bmp"
+			dominoesMap[counter] = newDomino(renderer, startStr, i, j)
 			counter++
+			startStr = "BMPdominoes/"
 		}
 	}
 
@@ -92,9 +92,18 @@ func main(){
 		renderer.SetDrawColor(255, 255, 255, 255)
 		renderer.Clear()
 
+		renderer.SetDrawColor(128, 0, 0, 0)
+		renderer.FillRect(&sdl.Rect{50, 550, 500, 200})
 
-		dominoe1 := newDominoe(renderer, "BMPdominoes/6-6.bmp")
-		dominoe1.draw(renderer)
+
+		
+		for i:=0; i<7; i++ {
+			randNum := r1.Intn(28)
+			domino1 := dominoesMap[randNum]
+ 			domino1.draw(renderer)
+		}
+
+		
 
 		renderer.Present()
 	}
@@ -103,7 +112,7 @@ func main(){
 
 	fmt.Println(broj)
 
-	//var array []Dominoe
+	//var array []Domino
 	//var player1 *Player = newPlayer("Stefan", array)
 
 	fmt.Println("")

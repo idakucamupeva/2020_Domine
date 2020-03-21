@@ -6,14 +6,15 @@ import (
 	"fmt"
 )
 
-type dominoe struct{
+type domino struct{
+	left, right int
 	tex *sdl.Texture
 	x, y float64
 }
 
 const (
-	dominoeWidth = 189
-	dominoeHeight = 90
+	dominoWidth = 189
+	dominoHeight = 90
 )
 
 func textureFromBMP(renderer *sdl.Renderer, filename string) *sdl.Texture{
@@ -31,19 +32,19 @@ func textureFromBMP(renderer *sdl.Renderer, filename string) *sdl.Texture{
 	return tex
 }
 
-func newDominoe(renderer *sdl.Renderer, filename string) (dom dominoe){
+func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom domino){
 	dom.tex = textureFromBMP(renderer, filename)
 
 	dom.x = screenWidth/ 2.0
-	dom.y = screenHeight - dominoeHeight / 2.0 
+	dom.y = screenHeight - dominoHeight / 2.0 
 
 		return dom
 }
 
-func (dom *dominoe) draw(renderer *sdl.Renderer){
-	x := dom.x - dominoeWidth
-	y := dom.y - dominoeWidth*2
-	renderer.Copy(dom.tex, &sdl.Rect{0, 0, dominoeWidth, dominoeHeight},
-		&sdl.Rect{int32(x), int32(y), dominoeWidth, dominoeHeight})
+func (dom *domino) draw(renderer *sdl.Renderer){
+	x := dom.x - dominoWidth
+	y := dom.y - dominoWidth*2
+	renderer.Copy(dom.tex, &sdl.Rect{0, 0, dominoWidth, dominoHeight},
+		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight})
 
 }
