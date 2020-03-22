@@ -4,8 +4,8 @@ package main
 import (
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
-	"math/rand"
-	"time"
+	//"math/rand"
+	//"time"
 	"strconv"
 )
 
@@ -29,6 +29,8 @@ func newPlayer(name string, deck []domino) *Player{
 		deck: deck,
 	}
 }
+
+var dominoesMap = make(map[int]*domino)
 
 
 func main(){
@@ -58,15 +60,10 @@ func main(){
 
 	defer renderer.Destroy()
 
-	var dominoesMap = make(map[int]domino)
-	
 	//domino's number
 	var counter int
-	counter = 0
-	
-	s1 := rand.NewSource(time.Now().UnixNano())
-	r1 := rand.New(s1)
-	broj := r1.Intn(28)
+	counter = 0	
+
 	
 	startStr := "BMPdominoes/"
 	
@@ -78,6 +75,10 @@ func main(){
 			startStr = "BMPdominoes/"
 		}
 	}
+	
+	//fmt.Println(&dominoesMap[21].assigned)
+	//dominoesMap[21].assigned = 222
+	//fmt.Println(dominoesMap[21].assigned)
 
 	for{
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent(){
@@ -92,28 +93,11 @@ func main(){
 
 		renderer.SetDrawColor(128, 0, 0, 0)
 		renderer.FillRect(&sdl.Rect{50, 550, 500, 200})
-
-
 		
-		for i:=0; i<7; i++ {
-			randNum := r1.Intn(28)
-			domino1 := dominoesMap[randNum]
- 			domino1.draw(renderer)
-		}
 
-		
+
 
 		renderer.Present()
 	}
-
-
-	fmt.Print("hahahha")
-	fmt.Println(broj)
-
-	//var array []Domino
-	//var player1 *Player = newPlayer("Stefan", array)
-
-	fmt.Println("")
-
 
 }
