@@ -72,7 +72,7 @@ func main(){
 			startStr += strconv.Itoa(i) + "-" + strconv.Itoa(j) + ".bmp"
 			dominoTmp := newDomino(renderer, startStr, i, j)
 			dominoesMap[counter] = dominoTmp
-			fmt.Println("heeeej")
+			//fmt.Println("heeeej")
 			counter++
 			startStr = "BMPdominoes/"
 		}
@@ -81,12 +81,13 @@ func main(){
 	//fmt.Println(&dominoesMap[21].assigned)
 	//dominoesMap[21].assigned = 222
 	//fmt.Println(dominoesMap[21].assigned)
-
+	var flag = 0
 	for{
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent(){
+			//fmt.Print(flag)
 			switch event.(type) {
 			case *sdl.QuitEvent:
-				return 
+				return
 				
 			}
 		}
@@ -95,11 +96,11 @@ func main(){
 
 		renderer.SetDrawColor(128, 0, 0, 0)
 		renderer.FillRect(&sdl.Rect{50, 550, 500, 200})
-		
-
-		initDomino(renderer)
-
-		renderer.Present()
+		if flag==0 {
+			initDomino(renderer)
+			flag = 1
+			renderer.Present()
+		}
 	}
 
 }
