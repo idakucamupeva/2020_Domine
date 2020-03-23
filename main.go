@@ -30,7 +30,7 @@ func newPlayer(name string, deck []domino) *Player{
 	}
 }
 
-var dominoesMap = make(map[int]*domino)
+var dominoesMap = make(map[int]domino, 28)
 
 
 func main(){
@@ -70,12 +70,14 @@ func main(){
 	for i:=0; i < 7; i++{
 		for j:=i; j < 7; j++{
 			startStr += strconv.Itoa(i) + "-" + strconv.Itoa(j) + ".bmp"
-			dominoesMap[counter] = newDomino(renderer, startStr, i, j)
+			dominoTmp := newDomino(renderer, startStr, i, j)
+			dominoesMap[counter] = dominoTmp
+			fmt.Println("heeeej")
 			counter++
 			startStr = "BMPdominoes/"
 		}
 	}
-	
+
 	//fmt.Println(&dominoesMap[21].assigned)
 	//dominoesMap[21].assigned = 222
 	//fmt.Println(dominoesMap[21].assigned)
@@ -95,7 +97,7 @@ func main(){
 		renderer.FillRect(&sdl.Rect{50, 550, 500, 200})
 		
 
-
+		initDomino(renderer)
 
 		renderer.Present()
 	}

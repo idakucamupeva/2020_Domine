@@ -11,6 +11,7 @@ import (
 type domino struct{
 	left, right int
 	assigned int
+	filename string
 	tex *sdl.Texture
 	x, y float64
 }
@@ -39,8 +40,9 @@ func textureFromBMP(renderer *sdl.Renderer, filename string) *sdl.Texture{
 	return tex
 }
 
-func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom* domino){
+func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom domino){
 	dom.tex = textureFromBMP(renderer, filename)
+	dom.filename = filename
 
 	dom.left = left
 	dom.right = right
@@ -63,7 +65,7 @@ func (dom *domino)draw(renderer *sdl.Renderer){
 
 }
 
-func initDomino(dom *domino, renderer *sdl.Renderer){
+func initDomino(renderer *sdl.Renderer){
 	
 
 	s1 := rand.NewSource(time.Now().UnixNano())
@@ -71,9 +73,13 @@ func initDomino(dom *domino, renderer *sdl.Renderer){
 	
 	for i:=0; i<7; i++ {
 		randNum := r1.Intn(28)
-		dominoesMap[randNum].assigned = 1
-
+		dominoTmp := newDomino(renderer, dominoesMap[randNum].filename, dominoesMap[randNum].left, dominoesMap[randNum].right)
+		dominoTmp.x = (float64)(tablePositionWidth + i*dominoWidth/2)
+		dominoTmp.y = tablePositionHeight
+		dominoTmp.assigned = 1
+		dominoesMap[randNum] = dominoTmp
+		
+		dominoTmp.draw(renderer)
 	}
-
 	
 }
