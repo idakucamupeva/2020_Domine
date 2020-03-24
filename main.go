@@ -4,8 +4,6 @@ package main
 import (
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
-	//"math/rand"
-	//"time"
 	"strconv"
 )
 
@@ -14,23 +12,10 @@ const (
 	screenHeight = 800
 )
 
-
-
-type Player struct{
-	name string
-	deck []domino 
-}
-
-
-//player constructor
-func newPlayer(name string, deck []domino) *Player{
-	return &Player{
-		name: name,
-		deck: deck,
-	}
-}
-
 var dominoesMap = make(map[int]domino, 28)
+var player1 = newPlayer("player1", true, nil)
+var player2 = newPlayer("bot", false, nil)
+
 
 
 func main(){
@@ -78,13 +63,11 @@ func main(){
 		}
 	}
 
-	//fmt.Println(&dominoesMap[21].assigned)
-	//dominoesMap[21].assigned = 222
-	//fmt.Println(dominoesMap[21].assigned)
-	var flag = 0
+
+	flag := 0
+	flag1 := 0
 	for{
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent(){
-			//fmt.Print(flag)
 			switch event.(type) {
 			case *sdl.QuitEvent:
 				return
@@ -99,8 +82,16 @@ func main(){
 		if flag==0 {
 			initDomino(renderer)
 			flag = 1
+			fmt.Println(player1.deck)
+		}
+		if flag1==0 {
+			initComputerDomino()
+			flag1 = 1
+			fmt.Println(player2.deck)
 			renderer.Present()
 		}
+
+		
 	}
 
 }

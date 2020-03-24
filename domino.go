@@ -17,8 +17,8 @@ type domino struct{
 }
 
 const (
-	tablePositionWidth = 150
-	tablePositionHeight = 555
+	tablePositionWidth = 200
+	tablePositionHeight = 830
 	dominoWidth = 189
 	dominoHeight = 90
 )
@@ -50,7 +50,7 @@ func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom do
 	dom.x = tablePositionWidth
 	dom.y = tablePositionHeight
 
-	dom.assigned = 111
+	dom.assigned = 0
 
 		return dom
 }
@@ -58,6 +58,7 @@ func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom do
 func (dom *domino)draw(renderer *sdl.Renderer){
 	x := dom.x 
 	y := dom.y 
+	renderer.SetScale(0.7, 0.7)
 	renderer.CopyEx(dom.tex, &sdl.Rect{0, 0, dominoWidth, dominoHeight},
 		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight}, 90, 
 		&sdl.Point{0, 0},
@@ -67,19 +68,45 @@ func (dom *domino)draw(renderer *sdl.Renderer){
 
 func initDomino(renderer *sdl.Renderer){
 	
-
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	
 	for i:=0; i<7; i++ {
 		randNum := r1.Intn(28)
-		dominoTmp := newDomino(renderer, dominoesMap[randNum].filename, dominoesMap[randNum].left, dominoesMap[randNum].right)
-		dominoTmp.x = (float64)(tablePositionWidth + i*dominoWidth/2)
-		dominoTmp.y = tablePositionHeight
-		dominoTmp.assigned = 1
-		dominoesMap[randNum] = dominoTmp
+		if dominoesMap[randNum].assigned == 0{
+			dominoTmp := dominoesMap[randNum]
+			dominoTmp.x = (float64)(tablePositionWidth + i*dominoWidth/2)
+			dominoTmp.y = tablePositionHeight
+			dominoTmp.assigned = 1
+			dominoesMap[randNum] = dominoTmp
+			dominoTmp.draw(renderer)
+
+			player1.deck = append(player1.deck, dominoTmp)
 		
-		dominoTmp.draw(renderer)
+		}else{
+			i--
+		}
+		
 	}
 	
+}
+
+func initComputerDomino(){
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	
+	for i:=0; i<7; i++ {
+		randNum := r1.Intn(28)
+		if dominoesMap[randNum].assigned == 0{
+			dominoTmp := dominoesMap[randNum]
+			dominoTmp.assigned = 2
+			dominoesMap[randNum] = dominoTmp
+
+			player2.deck = append(player2.deck, dominoTmp)
+					
+		}else{
+			i--
+		}
+		
+	}
 }
