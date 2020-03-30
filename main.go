@@ -82,7 +82,6 @@ func main(){
 		if flag==0 {
 			initDomino(renderer)
 			flag = 1
-			//moj kod
 			for i:=0; i< len(player1.deck); i++{
 				printDomino(&player1.deck[i])
 			}
