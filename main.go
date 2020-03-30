@@ -82,12 +82,21 @@ func main(){
 		if flag==0 {
 			initDomino(renderer)
 			flag = 1
-			fmt.Println(player1.deck)
+			//moj kod
+			for i:=0; i< len(player1.deck); i++{
+				printDomino(&player1.deck[i])
+			}
+
+			//fmt.Println(player1.deck)
 		}
 		if flag1==0 {
 			initComputerDomino()
 			flag1 = 1
-			fmt.Println(player2.deck)
+			//moj kod
+			for i:=0; i< len(player2.deck); i++{
+				printDomino(&player2.deck[i])
+			}
+			//fmt.Println(player2.deck)
 			renderer.Present()
 		}
 

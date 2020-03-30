@@ -110,3 +110,7 @@ func initComputerDomino(){
 		
 	}
 }
+
+func printDomino(dom *domino){
+	fmt.Println(dom.left," , ",dom.right)
+}
