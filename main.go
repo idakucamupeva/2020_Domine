@@ -82,8 +82,8 @@ func main(){
 	}
 
 
-	flag := 0
-	flag1 := 0
+	initDomino()
+	initComputerDomino()
 
 	currentMouseState := getMouseState()
 	previousMouseState := currentMouseState
@@ -122,28 +122,24 @@ func main(){
 
 		renderer.SetDrawColor(128, 0, 0, 0)
 		renderer.FillRect(&sdl.Rect{50, 550, 500, 200})
-		if flag==0 {
-			initDomino(renderer)
-			flag = 1
+	
+			
 			for i:=0; i< len(player1.deck); i++{
 				printDomino(&player1.deck[i])
 			}
 
-			}
 
-			//fmt.Println(player1.deck)
+		renderer.SetScale(0.7, 0.7)
+		
+		for _, dom := range player1.deck{
+			dom.draw(renderer)
+		}	
 
-		if flag1==0 {
-			initComputerDomino()
-			flag1 = 1
-			/*
-			//moj kod
-			for i:=0; i< len(player2.deck); i++{
-				printDomino(&player2.deck[i])
-			}*/
-			//fmt.Println(player2.deck)
-			renderer.Present()
-		}
+		renderer.SetScale(1, 1)
+		
+		
+		
+		renderer.Present()
 
 		previousMouseState = currentMouseState
 	}

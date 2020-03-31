@@ -58,7 +58,6 @@ func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom do
 func (dom *domino)draw(renderer *sdl.Renderer){
 	x := dom.x 
 	y := dom.y 
-	renderer.SetScale(0.7, 0.7)
 	renderer.CopyEx(dom.tex, &sdl.Rect{0, 0, dominoWidth, dominoHeight},
 		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight}, 90, 
 		&sdl.Point{0, 0},
@@ -66,7 +65,7 @@ func (dom *domino)draw(renderer *sdl.Renderer){
 
 }
 
-func initDomino(renderer *sdl.Renderer){
+func initDomino(){
 	
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
@@ -79,7 +78,7 @@ func initDomino(renderer *sdl.Renderer){
 			dominoTmp.y = tablePositionHeight
 			dominoTmp.assigned = 1
 			dominoesMap[randNum] = dominoTmp
-			dominoTmp.draw(renderer)
+			
 
 			player1.deck = append(player1.deck, dominoTmp)
 		
