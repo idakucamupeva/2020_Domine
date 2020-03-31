@@ -12,10 +12,28 @@ const (
 	screenHeight = 800
 )
 
+type mouseState struct{
+	leftButton bool
+	rightButton bool
+	x,y	int
+}
+
+func getMouseState() mouseState{
+	mouseX, mouseY, mouseButtonState := sdl.GetMouseState()
+	leftButton := mouseButtonState & sdl.ButtonLMask()
+	rightButton := mouseButtonState & sdl.ButtonRMask()
+	var result mouseState
+	result.x = int(mouseX)
+	result.y = int(mouseY)
+	result.leftButton = !(leftButton==0) //left button is pressed
+	result.rightButton = !(rightButton==0) //right button is pressed
+
+	return result
+}
+
 var dominoesMap = make(map[int]domino, 28)
 var player1 = newPlayer("player1", true, nil)
 var player2 = newPlayer("bot", false, nil)
-
 
 
 func main(){
@@ -66,6 +84,9 @@ func main(){
 
 	flag := 0
 	flag1 := 0
+
+	currentMouseState := getMouseState()
+	previousMouseState := currentMouseState
 	for{
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent(){
 			switch event.(type) {
@@ -74,6 +95,28 @@ func main(){
 				
 			}
 		}
+		currentMouseState = getMouseState()
+
+		if !previousMouseState.leftButton && currentMouseState.leftButton {
+			fmt.Println("Left click")
+		}
+
+/*
+			mouseX := currentMouseState.x
+			mouseY := currentMouseState.y
+			fmt.Println(mouseX,mouseY)
+
+
+		for i:=0; i< len(player1.deck); i++{
+			x := player1.deck[i].x*0.7
+			y := player1.deck[i].y*0.7
+
+			if float64(mouseX) >= x && float64(mouseX)<=(x+189) && float64(mouseY)<=y && float64(mouseY)>=(y+90){
+				fmt.Println("Domino hit")
+			}
+		}
+
+*/
 		renderer.SetDrawColor(255, 255, 255, 255)
 		renderer.Clear()
 
@@ -86,20 +129,22 @@ func main(){
 				printDomino(&player1.deck[i])
 			}
 
+			}
+
 			//fmt.Println(player1.deck)
-		}
+
 		if flag1==0 {
 			initComputerDomino()
 			flag1 = 1
+			/*
 			//moj kod
 			for i:=0; i< len(player2.deck); i++{
 				printDomino(&player2.deck[i])
-			}
+			}*/
 			//fmt.Println(player2.deck)
 			renderer.Present()
 		}
 
-		
+		previousMouseState = currentMouseState
 	}
-
 }
