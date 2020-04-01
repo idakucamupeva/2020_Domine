@@ -100,24 +100,22 @@ func main(){
 		currentMouseState = getMouseState()
 
 		if !previousMouseState.leftButton && currentMouseState.leftButton {
-			fmt.Println("Left click")
-		}
-
+			//fmt.Println("Left click")
 
 			mouseX := currentMouseState.x
 			mouseY := currentMouseState.y
-			fmt.Println(mouseX,mouseY)
+			//fmt.Println(mouseX,mouseY)
+			//}
 
+			for i := 0; i < len(player1.deck); i++ {
+				x := player1.deck[i].x
+				y := player1.deck[i].y
 
-		for i:=0; i< len(player1.deck); i++{
-			x := player1.deck[i].x*0.7
-			y := player1.deck[i].y*0.7
-
-			if float64(mouseX) >= x && float64(mouseX)<=(x+189) && float64(mouseY)<=y && float64(mouseY)>=(y+90){
-				fmt.Println("Domino hit")
+				if float64(mouseX) >= (x-dominoHeight)*0.7 && float64(mouseX) <= x*0.7 && float64(mouseY) <= (y+dominoWidth)*0.7 && float64(mouseY) >= y*0.7 {
+					fmt.Println("Domino hit")
+				}
 			}
 		}
-
 
 		renderer.SetDrawColor(255, 255, 255, 255)
 		renderer.Clear()
