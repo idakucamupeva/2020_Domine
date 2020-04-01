@@ -74,8 +74,8 @@ func main(){
 		for j:=i; j < 7; j++{
 			startStr += strconv.Itoa(i) + "-" + strconv.Itoa(j) + ".bmp"
 			dominoTmp := newDomino(renderer, startStr, i, j)
+			dominoTmp.texHidden = textureFromBMP(renderer, "BMPdominoes/7-7.bmp")
 			dominoesMap[counter] = dominoTmp
-			//fmt.Println("heeeej")
 			counter++
 			startStr = "BMPdominoes/"
 		}
@@ -122,7 +122,8 @@ func main(){
 
 		renderer.SetDrawColor(128, 0, 0, 0)
 		renderer.FillRect(&sdl.Rect{50, 550, 500, 200})
-	
+		renderer.FillRect(&sdl.Rect{50, 50, 500, 200})
+
 			
 			for i:=0; i< len(player1.deck); i++{
 				printDomino(&player1.deck[i])
@@ -133,6 +134,10 @@ func main(){
 		
 		for _, dom := range player1.deck{
 			dom.draw(renderer)
+		}	
+
+		for _, dom := range player2.deck{
+			dom.drawHiddenDomino(renderer)
 		}	
 
 		renderer.SetScale(1, 1)

@@ -13,12 +13,15 @@ type domino struct{
 	assigned int
 	filename string
 	tex *sdl.Texture
+	texHidden *sdl.Texture	
 	x, y float64
 }
 
 const (
-	tablePositionWidth = 200
+	tablePositionWidth = 190
 	tablePositionHeight = 830
+	tablePositionWidthOpponent = 190
+	tablePositionHeightOpponent = 120
 	dominoWidth = 189
 	dominoHeight = 90
 )
@@ -65,6 +68,16 @@ func (dom *domino)draw(renderer *sdl.Renderer){
 
 }
 
+func (dom *domino)drawHiddenDomino(renderer *sdl.Renderer){
+	x := dom.x 
+	y := dom.y 
+	renderer.CopyEx(dom.texHidden, &sdl.Rect{0, 0, dominoWidth, dominoHeight},
+		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight}, 90, 
+		&sdl.Point{0, 0},
+		sdl.FLIP_NONE)
+
+}
+
 func initDomino(){
 	
 	s1 := rand.NewSource(time.Now().UnixNano())
@@ -98,6 +111,8 @@ func initComputerDomino(){
 		randNum := r1.Intn(28)
 		if dominoesMap[randNum].assigned == 0{
 			dominoTmp := dominoesMap[randNum]
+			dominoTmp.x = (float64)(tablePositionWidthOpponent + i*dominoWidth/2)
+			dominoTmp.y = tablePositionHeightOpponent
 			dominoTmp.assigned = 2
 			dominoesMap[randNum] = dominoTmp
 
