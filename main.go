@@ -85,6 +85,8 @@ func main(){
 	initDomino()
 	initComputerDomino()
 
+
+
 	currentMouseState := getMouseState()
 	previousMouseState := currentMouseState
 	for{
@@ -101,7 +103,7 @@ func main(){
 			fmt.Println("Left click")
 		}
 
-/*
+
 			mouseX := currentMouseState.x
 			mouseY := currentMouseState.y
 			fmt.Println(mouseX,mouseY)
@@ -116,7 +118,7 @@ func main(){
 			}
 		}
 
-*/
+
 		renderer.SetDrawColor(255, 255, 255, 255)
 		renderer.Clear()
 
@@ -124,11 +126,8 @@ func main(){
 		renderer.FillRect(&sdl.Rect{50, 550, 500, 200})
 		renderer.FillRect(&sdl.Rect{50, 50, 500, 200})
 
+		
 			
-			for i:=0; i< len(player1.deck); i++{
-				printDomino(&player1.deck[i])
-			}
-
 
 		renderer.SetScale(0.7, 0.7)
 		
