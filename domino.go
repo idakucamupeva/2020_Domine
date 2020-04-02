@@ -53,17 +53,17 @@ func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom do
 	dom.x = tablePositionWidth
 	dom.y = tablePositionHeight
 
-	dom.assigned = 0
+	dom.assigned = -1
 
 		return dom
 }
 
-func (dom *domino)draw(renderer *sdl.Renderer){
+func (dom *domino)draw(renderer *sdl.Renderer, angle float64, a, b int32){
 	x := dom.x 
 	y := dom.y 
 	renderer.CopyEx(dom.tex, &sdl.Rect{0, 0, dominoWidth, dominoHeight},
-		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight}, 90, 
-		&sdl.Point{0, 0},
+		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight}, angle, 
+		&sdl.Point{a, b},
 		sdl.FLIP_NONE)
 
 }
@@ -78,6 +78,8 @@ func (dom *domino)drawHiddenDomino(renderer *sdl.Renderer){
 
 }
 
+
+
 func initDomino(){
 	
 	s1 := rand.NewSource(time.Now().UnixNano())
@@ -85,7 +87,7 @@ func initDomino(){
 	
 	for i:=0; i<7; i++ {
 		randNum := r1.Intn(28)
-		if dominoesMap[randNum].assigned == 0{
+		if dominoesMap[randNum].assigned == -1{
 			dominoTmp := dominoesMap[randNum]
 			dominoTmp.x = (float64)(tablePositionWidth + i*dominoWidth/2)
 			dominoTmp.y = tablePositionHeight
@@ -109,7 +111,7 @@ func initComputerDomino(){
 	
 	for i:=0; i<7; i++ {
 		randNum := r1.Intn(28)
-		if dominoesMap[randNum].assigned == 0{
+		if dominoesMap[randNum].assigned == -1{
 			dominoTmp := dominoesMap[randNum]
 			dominoTmp.x = (float64)(tablePositionWidthOpponent + i*dominoWidth/2)
 			dominoTmp.y = tablePositionHeightOpponent

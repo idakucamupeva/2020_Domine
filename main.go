@@ -84,6 +84,7 @@ func main(){
 
 	initDomino()
 	initComputerDomino()
+	table := newGameTable()
 
 
 
@@ -113,8 +114,11 @@ func main(){
 
 				if float64(mouseX) >= (x-dominoHeight)*0.7 && float64(mouseX) <= x*0.7 && float64(mouseY) <= (y+dominoWidth)*0.7 && float64(mouseY) >= y*0.7 {
 					fmt.Println("Domino hit", i)
-					 
-					player1.deck = append(player1.deck[:i], player1.deck[i+1:]...)
+					
+						play(player1, i, &table)
+						
+					
+					 //player1.deck = append(player1.deck[:i], player1.deck[i+1:]...)
 				}
 			}
 		}
@@ -132,8 +136,21 @@ func main(){
 		renderer.SetScale(0.7, 0.7)
 		
 		for _, dom := range player1.deck{
-			dom.draw(renderer)
+			if dom.assigned == 0 {
+				renderer.SetScale(0.5, 0.5)
+				dom.draw(renderer, 0.0, 0, 0)
+				renderer.SetScale(0.7, 0.7)
+			}else if dom.assigned == -2{
+				renderer.SetScale(0.5, 0.5)
+				dom.draw(renderer, 0.0, 0, 0)
+				renderer.SetScale(0.7, 0.7)
+			}else{
+				dom.draw(renderer, 90.0, 0, 0)
+			}
 		}	
+
+		fmt.Println(table.left, table.right)
+
 
 		for _, dom := range player2.deck{
 			dom.drawHiddenDomino(renderer)
@@ -147,4 +164,5 @@ func main(){
 
 		previousMouseState = currentMouseState
 	}
+
 }

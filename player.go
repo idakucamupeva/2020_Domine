@@ -22,3 +22,4 @@ func newPlayer(name string, isHuman bool, deck []domino) Player{
 		deck: deck,
 	}
 }
+
