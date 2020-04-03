@@ -47,7 +47,7 @@ func main(){
 		"MATF Dominoes",
 		sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
 		screenWidth, screenHeight,
-		sdl.WINDOW_OPENGL)
+		sdl.WINDOW_OPENGL | sdl.WINDOW_RESIZABLE)
 	if err != nil {
 		fmt.Println("initializing window:", err)
 		return
