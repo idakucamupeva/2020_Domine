@@ -84,9 +84,9 @@ func (table gameTable) numOnRight() int{
 }
 
 	//if it's possible to add domino on left function returns 1, if on right then 2,
-	//if both then 0, if none then -1
+	//if both then 0, if none then -1, if it's start position then -2
 func (table gameTable) canBeAdded (dom domino) int{
-	if table.left == -1 {
+	if table.left == -1 { //start position
 		return -2
 	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right){
 		return 0
@@ -106,12 +106,12 @@ func play(plr Player, num int, table *gameTable){
 	if tryAdd == -2{
 		tmpDom := plr.deck[num]
 		addDominoOnLeft(table, &tmpDom)
-		plr.deck[num] = tmpDom
+		plr.deck[num] = tmpDom //domino changes x and y
 		fmt.Println("-2")
 	}else if tryAdd == 1{
 		tmpDom := plr.deck[num]
 		addDominoOnLeft(table, &tmpDom)
-		plr.deck[num] = tmpDom
+		plr.deck[num] = tmpDom 
 		fmt.Println("1")
 	}else if tryAdd == 2{
 		tmpDom := plr.deck[num]
@@ -129,4 +129,3 @@ func play(plr Player, num int, table *gameTable){
 	}
 
 }
-
