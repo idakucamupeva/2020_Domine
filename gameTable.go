@@ -15,14 +15,19 @@ type gameTable struct{
 
 const(
 	startPositionWidth = 0+dominoWidth
-	startPositionHeight = 700 
+	startPositionHeight = 700
 )
 
 var x_left = startPositionWidth+dominoWidth
 var y_left = startPositionHeight
 var x_right = startPositionWidth+2*dominoWidth
 var y_right = startPositionHeight
-
+/*
+var x_left = width+dominoWidth
+var y_left = startPositionHeight
+var x_right = width+2*dominoWidth
+var y_right = startPositionHeight
+*/
 
 func newGameTable()  gameTable{
 	left := -1
@@ -124,7 +129,7 @@ func (table gameTable) numOnRight() int{
 func canBeAdded(table *gameTable, dom *domino) int{
 	
 	//table.rotate = false
-	
+
 	if table.left == -1 { //start position
 		return -2
 	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right) && (dom.left != dom.right){  //TODO choosing side
@@ -138,7 +143,7 @@ func canBeAdded(table *gameTable, dom *domino) int{
 	}
 }
 
-func play(plr *Player, num int, table *gameTable){
+func play(plr *Player, num int, table *gameTable) bool{
 
 	tryAdd := canBeAdded(table, &plr.deck[num])
 	fmt.Println(plr.deck[num].assigned)
@@ -147,25 +152,76 @@ func play(plr *Player, num int, table *gameTable){
 		tmpDom := plr.deck[num]
 		addDominoOnStart(table, &tmpDom)
 		plr.deck[num] = tmpDom //domino changes x and y
-		fmt.Println("-2 start")
+		return true
+		//fmt.Println("-2 start")
 	}else if tryAdd == 1{
 		tmpDom := plr.deck[num]
 		addDominoOnLeft(table, &tmpDom)
 		plr.deck[num] = tmpDom 
-		fmt.Println("1 left", plr.deck[num].assigned)
+//		fmt.Println("1 left", plr.deck[num].assigned)
+		return true
+
 	}else if tryAdd == 2{
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
 		plr.deck[num] = tmpDom
-		fmt.Println("2 right", plr.deck[num].assigned)
+//		fmt.Println("2 right", plr.deck[num].assigned)
+		return true
+
 	}else if tryAdd == 0{  //TODO
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
 		plr.deck[num] = tmpDom
-		fmt.Println("0 both", plr.deck[num].assigned)
+//		fmt.Println("0 both", plr.deck[num].assigned)
+		return true
+
 	}else{
 		fmt.Println("-1 none", plr.deck[num].assigned)
-		return
+		return false
 	}
+	return false
+}
+//
 
+func computerPlay(plr *Player, table *gameTable) bool{
+
+	for num :=0; num< len(plr.deck); num++{
+		tryAdd := canBeAdded(table, &plr.deck[num])
+	//fmt.Println(plr.deck[num].assigned)
+
+	if tryAdd == -2{
+		tmpDom := plr.deck[num]
+		addDominoOnStart(table, &tmpDom)
+		plr.deck[num] = tmpDom //domino changes x and y
+		return true
+		//fmt.Println("-2 start")
+	}else if tryAdd == -1{
+		continue;
+	}else if tryAdd == 1{
+		tmpDom := plr.deck[num]
+		addDominoOnLeft(table, &tmpDom)
+		plr.deck[num] = tmpDom
+		//		fmt.Println("1 left", plr.deck[num].assigned)
+		return true
+
+	}else if tryAdd == 2{
+		tmpDom := plr.deck[num]
+		addDominoOnRight(table, &tmpDom)
+		plr.deck[num] = tmpDom
+		//		fmt.Println("2 right", plr.deck[num].assigned)
+		return true
+
+	}else if tryAdd == 0{  //TODO
+		tmpDom := plr.deck[num]
+		addDominoOnRight(table, &tmpDom)
+		plr.deck[num] = tmpDom
+		//		fmt.Println("0 both", plr.deck[num].assigned)
+		return true
+
+	}else{
+		fmt.Println("-1 none", plr.deck[num].assigned)
+		return false
+	}
+	}
+	return false
 }
