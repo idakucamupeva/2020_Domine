@@ -89,39 +89,33 @@ func main(){
 
 
 	currentMouseState := getMouseState()
-	previousMouseState := currentMouseState
+	//previousMouseState := currentMouseState
 	for{
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent(){
 			switch event.(type) {
 			case *sdl.QuitEvent:
 				return
-				
+			case *sdl.MouseButtonEvent:
+
+				mouseX := currentMouseState.x
+				mouseY := currentMouseState.y
+
+				for i := 0; i < len(player1.deck); i++ {
+					x := player1.deck[i].x
+					y := player1.deck[i].y
+
+					if float64(mouseX) >= (x-dominoHeight)*0.7 && float64(mouseX) <= x*0.7 && float64(mouseY) <= (y+dominoWidth)*0.7 && float64(mouseY) >= y*0.7 {
+						fmt.Println("Domino hit", i)
+
+						play(&player1, i, &table)
+
+						//player1.deck = append(player1.deck[:i], player1.deck[i+1:]...)
+					}
+				}
 			}
 		}
 		currentMouseState = getMouseState()
 
-		if !previousMouseState.leftButton && currentMouseState.leftButton {
-			//fmt.Println("Left click")
-
-			mouseX := currentMouseState.x
-			mouseY := currentMouseState.y
-			//fmt.Println(mouseX,mouseY)
-			//}
-
-			for i := 0; i < len(player1.deck); i++ {
-				x := player1.deck[i].x
-				y := player1.deck[i].y
-
-				if float64(mouseX) >= (x-dominoHeight)*0.7 && float64(mouseX) <= x*0.7 && float64(mouseY) <= (y+dominoWidth)*0.7 && float64(mouseY) >= y*0.7 {
-					fmt.Println("Domino hit", i)
-					
-						play(&player1, i, &table)
-						
-					
-					 //player1.deck = append(player1.deck[:i], player1.deck[i+1:]...)
-				}
-			}
-		}
 
 		renderer.SetDrawColor(255, 255, 255, 255)
 		renderer.Clear()
@@ -162,7 +156,7 @@ func main(){
 		
 		renderer.Present()
 
-		previousMouseState = currentMouseState
+		//previousMouseState = currentMouseState
 	}
 
 }
