@@ -8,13 +8,7 @@ import (
 	"strconv"
 	//"time"
 )
-//obrisati
-/*
-const (
-	screenWidth = 600
-	screenHeight = 800
-)
-*/
+
 type mouseState struct{
 	leftButton bool
 	rightButton bool
@@ -99,24 +93,6 @@ func main(){
 	initDomino()
 	initComputerDomino()
 	table := newGameTable()
-/*
-	for _, element := range dominoesMap {
-		if element.assigned ==-1{
-			bank = append(bank, element)
-			//fmt.Println( element.left, element.right)
-		}
-	}
-	width, height = window.GetSize()
-
-		for _,dom := range player1.deck{
-			printDomino(&dom)
-		}
-		fmt.Println()
-		for _,dom := range player2.deck{
-			printDomino(&dom)
-		}
-		fmt.Println()
-*/
 
 
 	currentMouseState := getMouseState()
@@ -149,14 +125,14 @@ func main(){
 
 						if float64(mouseX) >= (x-dominoHeight)*0.7 && float64(mouseX) <= x*0.7 && float64(mouseY) <= (y+dominoWidth)*0.7 && float64(mouseY) >= y*0.7 {
 							//fmt.Println("Domino hit", i)
-
+							if player1.deck[i].assigned==1{
 							if play(&player1, i, &table){
 									if isWon(&player1){
 										fmt.Println("Player1 won")
 									}
+
 									player1_active = !player1_active
-						//
-									fmt.Println()
+
 									if computerPlay(&player2,&table){
 										if isWon(&player2){
 											fmt.Println("Player2 won")
@@ -164,8 +140,8 @@ func main(){
 										player1_active = !player1_active
 
 									}
+																}
 							}
-
 								//player1.deck = append(player1.deck[:i], player1.deck[i+1:]...)
 						}
 					}
@@ -202,7 +178,8 @@ func main(){
 			}
 			for _, dom := range player2.deck {
 				if dom.assigned == 2{
-					dom.drawHiddenDomino(renderer)
+				//	dom.drawHiddenDomino(renderer)
+				dom.draw(renderer,90, 0, 0)
 				}
 				if dom.assigned == 0 { //TODO rotation
 					renderer.SetScale(0.5, 0.5)
