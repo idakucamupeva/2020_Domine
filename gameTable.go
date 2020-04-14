@@ -194,11 +194,12 @@ func play(plr *Player, num int, table *gameTable) bool{
 
 func computerPlay(plr *Player, table *gameTable) bool{
 
-	//for num :=0; num< len(plr.deck); num++{
+	for num :=0; num< len(plr.deck); num++{
 
-	for num :=0; num< len(player2.deck); num++{
-		if player2.deck[num].assigned==2{
-		tryAdd := canBeAdded(table, &player2.deck[num])
+	//for num :=0; num< len(player2.deck); num++{
+	//	if player2.deck[num].assigned==2{
+		if plr.deck[num].assigned==2{
+		tryAdd := canBeAdded(table, &plr.deck[num])
 
 		if tryAdd == onStartPosition{
 			tmpDom := plr.deck[num]
