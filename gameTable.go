@@ -10,7 +10,7 @@ import (
 
 type gameTable struct{
 	left, right int
-	deck [] domino
+
 }
 
 func newGameTable()  gameTable{
@@ -23,10 +23,8 @@ func newGameTable()  gameTable{
 	}
 }
 
-const(
-	startPositionWidth = 0+dominoWidth
-	startPositionHeight = 700
-)
+var startPositionWidth float64= float64(width/2-dominoWidth/2)/(float64(0.5))
+var startPositionHeight float64= float64(height/2-dominoHeight/2)/float64(0.5)
 
 var x_left = startPositionWidth+dominoWidth
 var y_left = startPositionHeight
@@ -68,11 +66,12 @@ func addDominoOnLeft(table *gameTable, dom *domino) {
 
 	dom.x = float64(x_left) 
 	dom.y = float64(y_left)
-	dom.assigned = -2 //on left
+	dom.assigned = 0 //on left
 	x_left -= dominoWidth
 
 	if (dom.right != tmpLeft){	//domino should be rotate TODO flag
-		dom.assigned = 5			
+		//dom.assigned = 5
+		dom.rotation = 180
 	}
 	
 } 
@@ -96,7 +95,8 @@ func addDominoOnRight(table *gameTable, dom *domino){
 	x_right += dominoWidth
 
 	if (dom.left != tmpRight){	//domino should be rotate TODO flag
-		dom.assigned = 5		
+		//dom.assigned = 5
+		dom.rotation = 180
 	}
 }
 
@@ -117,7 +117,7 @@ func addDominoOnStart(table *gameTable, dom *domino){
 
 	dom.x = float64(x_left) 
 	dom.y = float64(y_left)
-	dom.assigned = -2 //on left
+	dom.assigned = 0 //on left
 	x_left -= dominoWidth
 
 }
@@ -160,7 +160,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnStart(table, &tmpDom)
 		plr.deck[num] = tmpDom //domino changes x and y
-		table.deck = append(table.deck, tmpDom)
+		//table.deck = append(table.deck, tmpDom)
 
 		return true
 	}else if tryAdd == onLeft{
@@ -168,7 +168,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnLeft(table, &tmpDom)
 		plr.deck[num] = tmpDom
-		table.deck = append(table.deck, tmpDom)
+		//table.deck = append(table.deck, tmpDom)
 
 		return true
 
@@ -176,7 +176,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
 		plr.deck[num] = tmpDom
-		table.deck = append(table.deck, tmpDom)
+		//table.deck = append(table.deck, tmpDom)
 
 		return true
 
@@ -184,7 +184,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
 		plr.deck[num] = tmpDom
-		table.deck = append(table.deck, tmpDom)
+		//table.deck = append(table.deck, tmpDom)
 		return true
 
 	}else{
@@ -217,7 +217,7 @@ func computerPlay(plr *Player, table *gameTable) bool{
 			tmpDom := plr.deck[num]
 			addDominoOnStart(table, &tmpDom)
 			plr.deck[num] = tmpDom //domino changes x and y
-			table.deck = append(table.deck, tmpDom)
+	//		table.deck = append(table.deck, tmpDom)
 			return true
 		}else if tryAdd == onNone{
 			continue
@@ -225,21 +225,21 @@ func computerPlay(plr *Player, table *gameTable) bool{
 			tmpDom := plr.deck[num]
 			addDominoOnLeft(table, &tmpDom)
 			plr.deck[num] = tmpDom
-			table.deck = append(table.deck, tmpDom)
+	//		table.deck = append(table.deck, tmpDom)
 			return true
 
 		}else if tryAdd == onRight{
 			tmpDom := plr.deck[num]
 			addDominoOnRight(table, &tmpDom)
 			plr.deck[num] = tmpDom
-			table.deck = append(table.deck, tmpDom)
+	//		table.deck = append(table.deck, tmpDom)
 			return true
 
 		}else if tryAdd == onBoth{  //TODO
 			tmpDom := plr.deck[num]
 			addDominoOnRight(table, &tmpDom)
 			plr.deck[num] = tmpDom
-			table.deck = append(table.deck, tmpDom)
+	//		table.deck = append(table.deck, tmpDom)
 			return true
 
 		}else{

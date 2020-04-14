@@ -15,24 +15,19 @@ type domino struct{
 	tex *sdl.Texture
 	texHidden *sdl.Texture	
 	x, y float64
+	rotation float64
 }
 //ispraviti tablePositions
 const (
-	tablePositionWidth = 190
-	//tablePositionHeight = 830
-	tablePositionHeight = 800
-	tablePositionWidthOpponent = 190
-	tablePositionHeightOpponent = 120
 	dominoWidth = 189
 	dominoHeight = 90
 )
-/*
 
-var tablePositionWidth = float64(50)
-var tablePositionHeight = float64(height-(height/4+50))
-var tablePositionWidthOpponent =  float64(50)
-var tablePositionHeightOpponent = float64(50)
-*/
+
+var tablePositionX = float64(width/16)/0.7
+var tablePositionY = float64(height-(height/4+50))/0.7
+var tablePositionXOpponent =  float64(width/16)/0.7
+var tablePositionYOpponent = float64(height/16)/0.7
 
 
 //Making texture from bmp picture
@@ -58,11 +53,11 @@ func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom do
 	dom.left = left
 	dom.right = right
 
-	dom.x = tablePositionWidth
-	dom.y = tablePositionHeight
+	dom.x = tablePositionX
+	dom.y = tablePositionY
 
 	dom.assigned = -1
-
+	dom.rotation = 0
 		return dom
 }
 
@@ -93,12 +88,12 @@ func initDomino(){
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	
-	for i:=0; i<7; i++ {
+	for i:=1; i<8; i++ {
 		randNum := r1.Intn(28)
 		if dominoesMap[randNum].assigned == -1{
 			dominoTmp := dominoesMap[randNum]
-			dominoTmp.x = (float64)(tablePositionWidth + i*dominoWidth/2)
-			dominoTmp.y = tablePositionHeight
+			dominoTmp.x = (tablePositionX + (float64)(float64(i)*dominoWidth/2))
+			dominoTmp.y = tablePositionY
 			dominoTmp.assigned = 1
 			dominoesMap[randNum] = dominoTmp
 			
@@ -117,12 +112,12 @@ func initComputerDomino(){
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	
-	for i:=0; i<7; i++ {
+	for i:=1; i<8; i++ {
 		randNum := r1.Intn(28)
 		if dominoesMap[randNum].assigned == -1{
 			dominoTmp := dominoesMap[randNum]
-			dominoTmp.x = (float64)(tablePositionWidthOpponent + i*dominoWidth/2)
-			dominoTmp.y = tablePositionHeightOpponent
+			dominoTmp.x = tablePositionXOpponent + (float64)(i*dominoWidth/2)
+			dominoTmp.y = tablePositionYOpponent
 			dominoTmp.assigned = 2
 			dominoesMap[randNum] = dominoTmp
 
