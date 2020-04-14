@@ -8,12 +8,13 @@ import (
 	"strconv"
 	//"time"
 )
-
+//obrisati
+/*
 const (
 	screenWidth = 600
 	screenHeight = 800
 )
-
+*/
 type mouseState struct{
 	leftButton bool
 	rightButton bool
@@ -36,11 +37,12 @@ func getMouseState() mouseState{
 var dominoesMap = make(map[int]domino, 28)
 var player1 = newPlayer("player1", true, nil)
 var player2 = newPlayer("bot", false, nil)
+//var bank [] domino
 
 var player1_active = true
 
-var width =int32(screenWidth)
-var height =int32(screenHeight)
+var width =int32(800)
+var height =int32(600)
 
 func main(){
 
@@ -54,15 +56,15 @@ func main(){
 	var window *sdl.Window
 
 	width, height = window.GetSize()
-	fmt.Println(width, height)
+	//fmt.Println(width, height)
 
 	window, err = sdl.CreateWindow(
 		//	window, err := sdl.CreateWindow(
 		"MATF Dominoes",
 		sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
-		screenWidth, screenHeight,
-//		width, height,
-		sdl.WINDOW_OPENGL | sdl.WINDOW_RESIZABLE | sdl.WINDOW_FULLSCREEN_DESKTOP)
+//		screenWidth, screenHeight,
+		width, height,
+		sdl.WINDOW_OPENGL | sdl.WINDOW_RESIZABLE | sdl.WINDOW_SHOWN | sdl.WINDOW_FULLSCREEN_DESKTOP)
 	if err != nil {
 		fmt.Println("initializing window:", err)
 		return
@@ -101,13 +103,26 @@ func main(){
 	initDomino()
 	initComputerDomino()
 	table := newGameTable()
-
-
+/*
+	for _, element := range dominoesMap {
+		if element.assigned ==-1{
+			bank = append(bank, element)
+			//fmt.Println( element.left, element.right)
+		}
+	}
 	width, height = window.GetSize()
 
-	for _,dom := range player2.deck{
-		printDomino(&dom)
-	}
+		for _,dom := range player1.deck{
+			printDomino(&dom)
+		}
+		fmt.Println()
+		for _,dom := range player2.deck{
+			printDomino(&dom)
+		}
+		fmt.Println()
+*/
+	width, height = window.GetSize()
+
 
 	currentMouseState := getMouseState()
 	//previousMouseState := currentMouseState
@@ -128,72 +143,123 @@ func main(){
 					mouseX := currentMouseState.x
 					mouseY := currentMouseState.y
 
+//					fmt.Println(mouseX,mouseY)
+
+
 					for i := 0; i < len(player1.deck); i++ {
 						x := player1.deck[i].x
 						y := player1.deck[i].y
 
 						if float64(mouseX) >= (x-dominoHeight)*0.7 && float64(mouseX) <= x*0.7 && float64(mouseY) <= (y+dominoWidth)*0.7 && float64(mouseY) >= y*0.7 {
-							fmt.Println("Domino hit", i)
+							//fmt.Println("Domino hit", i)
 
 							if play(&player1, i, &table){
-
+									if isWon(&player1){
+										fmt.Println("Player1 won")
+									}
 									player1_active = !player1_active
+
+									for _, dom := range table.deck {
+										printDomino(&dom)
+									}								//
+									fmt.Println()
 									if computerPlay(&player2,&table){
+										if isWon(&player2){
+											fmt.Println("Player2 won")
+										}
 										player1_active = !player1_active
+
 									}
 							}
-							//player1.deck = append(player1.deck[:i], player1.deck[i+1:]...)
+
+								//player1.deck = append(player1.deck[:i], player1.deck[i+1:]...)
 						}
 					}
 
 				}
-			}
 
+			}
 
 			renderer.SetDrawColor(255, 255, 255, 255)
 			renderer.Clear()
 
 			renderer.SetDrawColor(128, 0, 0, 0)
-			renderer.FillRect(&sdl.Rect{50, 550, width-100, height/4})
-			renderer.FillRect(&sdl.Rect{50, 50, width-100, height/4})
+			//renderer.FillRect(&sdl.Rect{50, 550, width/4*3, height/4})
+			renderer.FillRect(&sdl.Rect{50, height-(height/4+50), width/4*3, height/4})
+			renderer.FillRect(&sdl.Rect{50, 50, width/4*3, height/4}) //W: width-100
+
+			renderer.SetDrawColor(50, 0, 128, 0)
+
+			renderer.FillRect(&sdl.Rect{width-200, height/4+100, 150, 200})
+			//TODO iscrtati dominu u banci
 
 			renderer.SetScale(0.7, 0.7)
 
 			for _, dom := range player1.deck {
-				if dom.assigned == 0 || dom.assigned == -2 {
-					renderer.SetScale(0.5, 0.5)
-					dom.draw(renderer, 0.0, dominoWidth/2, dominoHeight/2)
-					renderer.SetScale(0.7, 0.7)
-//					dom.left = -1
-//					dom.right = -1
-
-				} else if dom.assigned == 5 { //TODO rotation
-					renderer.SetScale(0.5, 0.5)
-					dom.draw(renderer, 180.0, dominoWidth/2, dominoHeight/2)
-					renderer.SetScale(0.7, 0.7)
-				} else {
+				if dom.assigned == 1{
 					dom.draw(renderer, 90.0, 0, 0)
 				}
 			}
-//			width, height = window.GetSize()
-//			fmt.Println(width, height)
-
-			//fmt.Println(table.left, table.right)
-
 
 			for _, dom := range player2.deck {
-				if dom.assigned == 0 || dom.assigned == -2 {
-					renderer.SetScale(0.5, 0.5)
-					dom.draw(renderer, 0.0, dominoWidth/2, dominoHeight/2)
-					renderer.SetScale(0.7, 0.7)
-				} else if dom.assigned == 5 { //TODO rotation
-					renderer.SetScale(0.5, 0.5)
-					dom.draw(renderer, 180.0, dominoWidth/2, dominoHeight/2)
-					renderer.SetScale(0.7, 0.7)
-				} else {
+				if dom.assigned == 2{
+					dom.drawHiddenDomino(renderer)
+				}
+			}
+			/*
+			for _, dom := range player2.deck {
+				if dom.assigned == 2{
 					dom.draw(renderer, 90.0, 0, 0)
 				}
 			}
+			*/
+
+			for _, dom := range table.deck {
+				if dom.assigned == 5 { //TODO rotation
+					renderer.SetScale(0.5, 0.5)
+					dom.draw(renderer, 180.0, dominoWidth/2, dominoHeight/2)
+					renderer.SetScale(0.7, 0.7)
+				}else{
+						renderer.SetScale(0.5, 0.5)
+						dom.draw(renderer, 0.0, dominoWidth/2, dominoHeight/2)
+						renderer.SetScale(0.7, 0.7)
+
+
+				}
+			}
+			/*
+
+
+						//TODO draw player1's dominoes
+						for _, dom := range player1.deck {
+							if dom.assigned == 0 || dom.assigned == -2 {
+								renderer.SetScale(0.5, 0.5)
+								dom.draw(renderer, 0.0, dominoWidth/2, dominoHeight/2)
+								renderer.SetScale(0.7, 0.7)
+
+							} else if dom.assigned == 5 { //TODO rotation
+								renderer.SetScale(0.5, 0.5)
+								dom.draw(renderer, 180.0, dominoWidth/2, dominoHeight/2)
+								renderer.SetScale(0.7, 0.7)
+							} else {
+								dom.draw(renderer, 90.0, 0, 0)
+							}
+						}
+						//TODO draw player2's dominoes
+						for _, dom := range player2.deck {
+							if dom.assigned == 0 || dom.assigned == -2 {
+								renderer.SetScale(0.5, 0.5)
+								dom.draw(renderer, 0.0, dominoWidth/2, dominoHeight/2)
+								renderer.SetScale(0.7, 0.7)
+							} else if dom.assigned == 5 { //TODO rotation
+								renderer.SetScale(0.5, 0.5)
+								dom.draw(renderer, 180.0, dominoWidth/2, dominoHeight/2)
+								renderer.SetScale(0.7, 0.7)
+							} else {
+								dom.draw(renderer, 90.0, 0, 0)
+							}
+						}
+				*/		//TODO draw tableDominoes
 /*
 				for _, dom := range player2.deck {
 					if dom.assigned == 2{

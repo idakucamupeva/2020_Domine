@@ -16,18 +16,26 @@ type domino struct{
 	texHidden *sdl.Texture	
 	x, y float64
 }
-
+//ispraviti tablePositions
 const (
 	tablePositionWidth = 190
-	tablePositionHeight = 830
+	//tablePositionHeight = 830
+	tablePositionHeight = 800
 	tablePositionWidthOpponent = 190
 	tablePositionHeightOpponent = 120
 	dominoWidth = 189
 	dominoHeight = 90
 )
+/*
+
+var tablePositionWidth = float64(50)
+var tablePositionHeight = float64(height-(height/4+50))
+var tablePositionWidthOpponent =  float64(50)
+var tablePositionHeightOpponent = float64(50)
+*/
 
 
-
+//Making texture from bmp picture
 func textureFromBMP(renderer *sdl.Renderer, filename string) *sdl.Texture{
 	img, err := sdl.LoadBMP(filename)
 		if err != nil {

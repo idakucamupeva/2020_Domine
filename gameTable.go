@@ -3,14 +3,24 @@ package main
 
 import (
 	//"github.com/veandco/go-sdl2/sdl"
-	"fmt"
+//	"fmt"
 )
 
 
 
 type gameTable struct{
 	left, right int
+	deck [] domino
+}
 
+func newGameTable()  gameTable{
+	left := -1
+	right := -1
+
+	return gameTable{
+		left:left,
+		right:right,
+	}
 }
 
 const(
@@ -29,16 +39,15 @@ var x_right = width+2*dominoWidth
 var y_right = startPositionHeight
 */
 
-func newGameTable()  gameTable{
-	left := -1
-	right := -1
+type addingOnTable int
 
-	return gameTable{
-		left:left,
-		right:right,
-	}
-}
-
+const(
+	onStartPosition addingOnTable = -2
+	onLeft addingOnTable = 1
+	onRight addingOnTable = 2
+	onBoth addingOnTable = 0
+	onNone addingOnTable = -1
+)
 
 //adding domino on left side of the deck
 func addDominoOnLeft(table *gameTable, dom *domino) {
@@ -124,6 +133,145 @@ func (table gameTable) numOnRight() int{
 	return table.right
 }
 
+//if it's possible to add domino on left function returns 1, if on right then 2,
+//if both then 0, if none then -1, if it's start position then -2
+func canBeAdded(table *gameTable, dom *domino) addingOnTable{
+
+	if table.left == -1 { //start position
+		return onStartPosition
+	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right) && (dom.left != dom.right){  //TODO choosing side
+		return onBoth
+	}else if dom.left == table.left || dom.right == table.left{
+		return onLeft
+	}else if dom.left == table.right || dom.right == table.right{
+		return onRight
+	}else{
+		return onNone
+	}
+}
+
+
+func play(plr *Player, num int, table *gameTable) bool{
+
+	tryAdd := canBeAdded(table, &plr.deck[num])
+//	fmt.Println(plr.deck[num].assigned)
+
+	if tryAdd == onStartPosition{
+		tmpDom := plr.deck[num]
+		addDominoOnStart(table, &tmpDom)
+		plr.deck[num] = tmpDom //domino changes x and y
+		table.deck = append(table.deck, tmpDom)
+
+		return true
+	}else if tryAdd == onLeft{
+
+		tmpDom := plr.deck[num]
+		addDominoOnLeft(table, &tmpDom)
+		plr.deck[num] = tmpDom
+		table.deck = append(table.deck, tmpDom)
+
+		return true
+
+	}else if tryAdd == onRight{
+		tmpDom := plr.deck[num]
+		addDominoOnRight(table, &tmpDom)
+		plr.deck[num] = tmpDom
+		table.deck = append(table.deck, tmpDom)
+
+		return true
+
+	}else if tryAdd == onBoth{  //TODO
+		tmpDom := plr.deck[num]
+		addDominoOnRight(table, &tmpDom)
+		plr.deck[num] = tmpDom
+		table.deck = append(table.deck, tmpDom)
+		return true
+
+	}else{
+	/*	var dominoTmp domino
+		for _, element := range dominoesMap {
+			if element.assigned ==-1{
+				dominoTmp = element
+				break
+			}
+		}
+		dominoTmp.assigned = plr.deck[num].assigned
+		plr.deck = append(plr.deck, dominoTmp)
+		if play(plr, len(plr.deck)-1, table){
+			return true
+		}
+	*/	return false
+	}
+	return false
+}
+
+func computerPlay(plr *Player, table *gameTable) bool{
+
+	//for num :=0; num< len(plr.deck); num++{
+
+	for num :=0; num< len(player2.deck); num++{
+		tryAdd := canBeAdded(table, &player2.deck[num])
+		//fmt.Println(plr.deck[num].assigned)
+
+		if tryAdd == onStartPosition{
+			tmpDom := plr.deck[num]
+			addDominoOnStart(table, &tmpDom)
+			plr.deck[num] = tmpDom //domino changes x and y
+			table.deck = append(table.deck, tmpDom)
+			return true
+		}else if tryAdd == onNone{
+			continue
+		}else if tryAdd == onLeft{
+			tmpDom := plr.deck[num]
+			addDominoOnLeft(table, &tmpDom)
+			plr.deck[num] = tmpDom
+			table.deck = append(table.deck, tmpDom)
+			return true
+
+		}else if tryAdd == onRight{
+			tmpDom := plr.deck[num]
+			addDominoOnRight(table, &tmpDom)
+			plr.deck[num] = tmpDom
+			table.deck = append(table.deck, tmpDom)
+			return true
+
+		}else if tryAdd == onBoth{  //TODO
+			tmpDom := plr.deck[num]
+			addDominoOnRight(table, &tmpDom)
+			plr.deck[num] = tmpDom
+			table.deck = append(table.deck, tmpDom)
+			return true
+
+		}else{
+		//	fmt.Println("-1 none", plr.deck[num].assigned)
+			return false
+		}
+	}
+	return false
+}
+
+
+func isWon(plr *Player) bool {
+	var forCheck int = 0
+	if plr==&player1{
+		forCheck = 1
+	}
+	if plr==&player2{
+		forCheck=2
+	}
+
+	for _, dom := range plr.deck {
+		if dom.assigned == forCheck{
+			return false
+		}
+	}
+	return true
+}
+
+//
+
+
+/*
 	//if it's possible to add domino on left function returns 1, if on right then 2,
 	//if both then 0, if none then -1, if it's start position then -2
 func canBeAdded(table *gameTable, dom *domino) int{
@@ -225,3 +373,4 @@ func computerPlay(plr *Player, table *gameTable) bool{
 	}
 	return false
 }
+*/
