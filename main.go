@@ -160,7 +160,7 @@ func main(){
 
 			renderer.SetDrawColor(50, 0, 128, 0)
 
-			//renderer.FillRect(&sdl.Rect{width-200, height/4+100, 150, 200})
+			renderer.FillRect(&sdl.Rect{width/16+width/4*3+50, height/16+20, 100, 150})
 			//TODO iscrtati dominu u banci
 
 			renderer.SetScale(0.7, 0.7)
