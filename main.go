@@ -89,6 +89,14 @@ func main(){
 		}
 	}
 
+	//BUTTONS-textures
+	leftBtn := newButton(renderer, "img/leftBtn.bmp", float64(width)*0.3, float64(height)*0.9)
+	rightBtn := newButton(renderer, "img/rightBtn.bmp", float64(width)*0.3+leftAndRightSize+20, float64(height)*0.9)
+	bankBtn := newButton(renderer, "img/bank.bmp", (float64(width)/6*5)/0.7, (float64(height)/2-float64(bankSize)/2)/0.7)
+
+	//TODO  bank is empty
+	//emptyBankBtn := newButton(renderer, "img/bankEmpty.bmp", (float64(width)/6*5)/0.7, (float64(height)/2-float64(bankSize)/2)/0.7)
+
 
 	initDomino()
 	initComputerDomino()
@@ -160,10 +168,14 @@ func main(){
 
 			renderer.SetDrawColor(50, 0, 128, 0)
 
-			renderer.FillRect(&sdl.Rect{width/16+width/4*3+50, height/16+20, 100, 150})
-			//TODO iscrtati dominu u banci
+			leftBtn.drawButton(renderer, leftAndRightSize)
+			rightBtn.drawButton(renderer, leftAndRightSize)
+		
 
 			renderer.SetScale(0.7, 0.7)
+		
+			bankBtn.drawButton(renderer, bankSize)
+			
 
 			for _, dom := range player1.deck {
 				if dom.assigned == 1 {
