@@ -43,7 +43,9 @@ const(
 
 //adding domino on left side of the deck
 func addDominoOnLeft(table *gameTable, dom *domino) {
-	
+
+	leftDominoCounter += 1
+
 	tmpLeft := table.left
 
 	if table.left == -1{
@@ -71,7 +73,9 @@ func addDominoOnLeft(table *gameTable, dom *domino) {
 
 //adding domino on right side of the deck
 func addDominoOnRight(table *gameTable, dom *domino){
-	
+
+	rightDominoCounter += 1
+
 	tmpRight := table.right
 	
 	if dom.left == table.right{
@@ -150,6 +154,8 @@ func play(plr *Player, num int, table *gameTable) bool{
 	if tryAdd == onStartPosition{
 		tmpDom := plr.deck[num]
 		addDominoOnStart(table, &tmpDom)
+		//hasADominoFromBank = append(hasADominoFromBank, false)
+
 		plr.deck[num] = tmpDom //domino changes x and y
 
 		return true
@@ -157,6 +163,8 @@ func play(plr *Player, num int, table *gameTable) bool{
 
 		tmpDom := plr.deck[num]
 		addDominoOnLeft(table, &tmpDom)
+		//hasADominoFromBank = append(hasADominoFromBank, false)
+
 		plr.deck[num] = tmpDom
 
 		return true
@@ -164,6 +172,8 @@ func play(plr *Player, num int, table *gameTable) bool{
 	}else if tryAdd == onRight{
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
+		//hasADominoFromBank = append(hasADominoFromBank, false)
+
 		plr.deck[num] = tmpDom
 
 		return true
@@ -172,6 +182,8 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
 		plr.deck[num] = tmpDom
+		//hasADominoFromBank = append(hasADominoFromBank, false)
+
 		return true
 
 	}else{
@@ -183,6 +195,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 			}
 		}
 		dominoTmp.assigned = plr.deck[num].assigned
+
 		plr.deck = append(plr.deck, dominoTmp)
 		if play(plr, len(plr.deck)-1, table){
 			return true
@@ -196,8 +209,6 @@ func computerPlay(plr *Player, table *gameTable) bool{
 
 	for num :=0; num< len(plr.deck); num++{
 
-	//for num :=0; num< len(player2.deck); num++{
-	//	if player2.deck[num].assigned==2{
 		if plr.deck[num].assigned==2{
 		tryAdd := canBeAdded(table, &plr.deck[num])
 
@@ -232,6 +243,10 @@ func computerPlay(plr *Player, table *gameTable) bool{
 		}
 	}
 	}
+	addDominoFromBankToComputer()
+	if computerPlay(&player2, table){
+		return true
+	}
 	return false
 }
 
@@ -251,4 +266,73 @@ func isWon(plr *Player) bool {
 		}
 	}
 	return true
+}
+
+
+func addFromBank(mouseX int, mouseY int){
+	var dominoTmp domino
+	var positionInMap int = -1
+
+	for i := 0; i < len(dominoesMap); i++ {
+		if dominoesMap[i].assigned == -1{
+			dominoTmp = dominoesMap[i]
+			positionInMap = i
+			break
+		}
+	}
+	dominoTmp.assigned = 1	// TODO promeni na assigned kao argument da moze i player2
+	var foundEmptyPlace bool = false
+
+	for i := 0; i < len(player1.deck); i++ {
+		if 	player1.deck[i].assigned==0 && hasADominoFromBank[i]==false{	// svaki put istu uzima jer nije obelezeno tako u player1 ili dominoMaps
+			dominoTmp.x = tablePositionX + (float64)((i+1)*dominoWidth/2)
+			dominoTmp.y = tablePositionY
+			//	player1.deck[i] = dominoTmp
+			foundEmptyPlace = true
+			hasADominoFromBank[i] = true
+			break
+		}
+	}
+	if foundEmptyPlace==false{
+		dominoTmp.x = tablePositionX + (float64)(dominoCounter*dominoWidth/2)
+		dominoTmp.y = tablePositionY
+		dominoCounter += 1
+	}
+	dominoesMap[positionInMap] =dominoTmp
+	player1.deck = append(player1.deck, dominoTmp)
+
+}
+
+func addDominoFromBankToComputer(){
+	var dominoTmp domino
+	var positionInMap int = -1
+
+	for i := 0; i < len(dominoesMap); i++ {
+		if dominoesMap[i].assigned == -1{
+			dominoTmp = dominoesMap[i]
+			positionInMap = i
+			break
+		}
+	}
+	dominoTmp.assigned = 2
+	var foundEmptyPlace bool = false
+
+	for i := 0; i < len(player2.deck); i++ {
+		if 	player2.deck[i].assigned==0 {	// svaki put istu uzima jer nije obelezeno tako u player1 ili dominoMaps
+			dominoTmp.x = tablePositionXOpponent + (float64)((i+1)*dominoWidth/2)
+			dominoTmp.y = tablePositionYOpponent
+			//	player1.deck[i] = dominoTmp
+			foundEmptyPlace = true
+			break
+		}
+	}
+	if foundEmptyPlace==false{
+		dominoTmp.x = tablePositionXOpponent + (float64)(dominoCounterOpponent*dominoWidth/2)
+		dominoTmp.y = tablePositionYOpponent
+		dominoCounterOpponent += 1
+	}
+	dominoesMap[positionInMap] =dominoTmp
+	hasComputerDominoFromBank = append(hasComputerDominoFromBank, false)
+	player2.deck = append(player2.deck, dominoTmp)
+
 }

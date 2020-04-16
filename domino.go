@@ -105,6 +105,7 @@ func initDomino(){
 		}
 		
 	}
+	dominoCounter = 8
 	
 }
 
@@ -128,6 +129,7 @@ func initComputerDomino(){
 		}
 		
 	}
+	dominoCounterOpponent = 8
 }
 
 func printDomino(dom *domino){
