@@ -2,15 +2,13 @@ package main
 
 
 import (
-	"github.com/veandco/go-sdl2/sdl"
 	"fmt"
-	
+	"github.com/veandco/go-sdl2/sdl"
 )
 
 type Button struct{
 	tex *sdl.Texture
 	x, y float64
-
 }
 
 const(
@@ -30,6 +28,7 @@ func textureFromBMPBtn(renderer *sdl.Renderer, filename string) *sdl.Texture{
 		if err != nil{
 			panic(fmt.Errorf("creating texture from %v: %v", filename, err))
 		}
+
 	return tex
 }
 
@@ -45,6 +44,6 @@ func newButton(renderer *sdl.Renderer, filename string, x, y float64) (but Butto
 func (but *Button)drawButton(renderer *sdl.Renderer, size int){
 	x := but.x 
 	y := but.y 
-	renderer.Copy(but.tex, &sdl.Rect{0, 0, int32(size), int32(size)},
-		&sdl.Rect{int32(x), int32(y), int32(size), int32(size)})
+	renderer.Copy(but.tex, &sdl.Rect{W: int32(size), H: int32(size)},
+		&sdl.Rect{X: int32(x), Y: int32(y), W: int32(size), H: int32(size)})
 }

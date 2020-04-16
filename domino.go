@@ -2,8 +2,8 @@ package main
 
 
 import (
-	"github.com/veandco/go-sdl2/sdl"
 	"fmt"
+	"github.com/veandco/go-sdl2/sdl"
 	"math/rand"
 	"time"
 )
@@ -17,18 +17,17 @@ type domino struct{
 	x, y float64
 	rotation float64
 }
+
 //ispraviti tablePositions
 const (
 	dominoWidth = 189
 	dominoHeight = 90
 )
 
-
 var tablePositionX = float64(width/16)/0.7
 var tablePositionY = float64(height-(height/4+50))/0.7
 var tablePositionXOpponent =  float64(width/16)/0.7
 var tablePositionYOpponent = float64(height/16)/0.7
-
 
 //Making texture from bmp picture
 func textureFromBMP(renderer *sdl.Renderer, filename string) *sdl.Texture{
@@ -58,30 +57,27 @@ func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom do
 
 	dom.assigned = -1
 	dom.rotation = 0
-		return dom
+
+	return dom
 }
 
 func (dom *domino)draw(renderer *sdl.Renderer, angle float64, a, b int32){
 	x := dom.x 
 	y := dom.y 
-	renderer.CopyEx(dom.tex, &sdl.Rect{0, 0, dominoWidth, dominoHeight},
-		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight}, angle, 
-		&sdl.Point{a, b},
+	renderer.CopyEx(dom.tex, &sdl.Rect{W: dominoWidth, H: dominoHeight},
+		&sdl.Rect{X: int32(x), Y: int32(y), W: dominoWidth, H: dominoHeight}, angle,
+		&sdl.Point{X: a, Y: b},
 		sdl.FLIP_NONE)
-
 }
 
 func (dom *domino)drawHiddenDomino(renderer *sdl.Renderer){
 	x := dom.x 
 	y := dom.y 
-	renderer.CopyEx(dom.texHidden, &sdl.Rect{0, 0, dominoWidth, dominoHeight},
-		&sdl.Rect{int32(x), int32(y), dominoWidth, dominoHeight}, 90, 
-		&sdl.Point{0, 0},
+	renderer.CopyEx(dom.texHidden, &sdl.Rect{W: dominoWidth, H: dominoHeight},
+		&sdl.Rect{X: int32(x), Y: int32(y), W: dominoWidth, H: dominoHeight}, 90,
+		&sdl.Point{},
 		sdl.FLIP_NONE)
-
 }
-
-
 
 func initDomino(){
 	
@@ -92,21 +88,16 @@ func initDomino(){
 		randNum := r1.Intn(28)
 		if dominoesMap[randNum].assigned == -1{
 			dominoTmp := dominoesMap[randNum]
-			dominoTmp.x = (tablePositionX + (float64)(float64(i)*dominoWidth/2))
+			dominoTmp.x = tablePositionX + float64(i)*dominoWidth/2
 			dominoTmp.y = tablePositionY
 			dominoTmp.assigned = 1
 			dominoesMap[randNum] = dominoTmp
-			
-
 			player1.deck = append(player1.deck, dominoTmp)
-		
-		}else{
+		}else {
 			i--
 		}
-		
 	}
 	dominoCounter = 8
-	
 }
 
 func initComputerDomino(){
@@ -121,13 +112,10 @@ func initComputerDomino(){
 			dominoTmp.y = tablePositionYOpponent
 			dominoTmp.assigned = 2
 			dominoesMap[randNum] = dominoTmp
-
 			player2.deck = append(player2.deck, dominoTmp)
-					
 		}else{
 			i--
 		}
-		
 	}
 	dominoCounterOpponent = 8
 }

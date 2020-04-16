@@ -6,11 +6,8 @@ import (
 	"fmt"
 )
 
-
-
 type gameTable struct{
 	left, right int
-
 }
 
 func newGameTable()  gameTable{
@@ -23,13 +20,12 @@ func newGameTable()  gameTable{
 	}
 }
 
-var startPositionWidth float64= float64(width/2-dominoWidth/2)/(float64(0.5))
-var startPositionHeight float64= float64(height/2-dominoHeight/2)/float64(0.5)
-
-var x_left = startPositionWidth+dominoWidth
-var y_left = startPositionHeight
-var x_right = startPositionWidth+2*dominoWidth
-var y_right = startPositionHeight
+var startPositionWidth = float64(width/2-dominoWidth/2)/(0.5)
+var startPositionHeight = float64(height/2-dominoHeight/2)/ 0.5
+var xLeft = startPositionWidth+dominoWidth
+var yLeft = startPositionHeight
+var xRight = startPositionWidth+2*dominoWidth
+var yRight = startPositionHeight
 
 type addingOnTable int
 
@@ -56,19 +52,17 @@ func addDominoOnLeft(table *gameTable, dom *domino) {
 	}else{
 		table.left = dom.left
 	}
-
 	
 	//TODO
 
-	dom.x = float64(x_left) 
-	dom.y = float64(y_left)
+	dom.x = xLeft
+	dom.y = yLeft
 	dom.assigned = 0 //on left
-	x_left -= dominoWidth
+	xLeft -= dominoWidth
 
-	if (dom.right != tmpLeft){
+	if dom.right != tmpLeft {
 		dom.rotation = 180
 	}
-	
 } 
 
 //adding domino on right side of the deck
@@ -86,19 +80,17 @@ func addDominoOnRight(table *gameTable, dom *domino){
 
 	//TODO 
 	
-	dom.x = float64(x_right)
-	dom.y = float64(y_right)
+	dom.x = xRight
+	dom.y = yRight
 	dom.assigned = 0 
-	x_right += dominoWidth
+	xRight += dominoWidth
 
-	if (dom.left != tmpRight){
+	if dom.left != tmpRight {
 		dom.rotation = 180
 	}
 }
 
 func addDominoOnStart(table *gameTable, dom *domino){
-	
-	
 	if table.left == -1{
 		table.left = dom.left
 		table.right = dom.right
@@ -108,32 +100,24 @@ func addDominoOnStart(table *gameTable, dom *domino){
 		table.left = dom.left
 	}
 
-	
 	//TODO
 
-	dom.x = float64(x_left) 
-	dom.y = float64(y_left)
+	dom.x = xLeft
+	dom.y = yLeft
 	dom.assigned = 0 //on left
-	x_left -= dominoWidth
-
+	xLeft -= dominoWidth
 }
-
-
 
 func (table gameTable) numOnLeft() int{
 	return table.left
 }
 
-
 func (table gameTable) numOnRight() int{
 	return table.right
 }
 
-//if it's possible to add domino on left function returns 1, if on right then 2,
-//if both then 0, if none then -1, if it's start position then -2
 func canBeAdded(table *gameTable, dom *domino) addingOnTable{
-
-	if table.left == -1 { //start position
+	if table.left == -1 {
 		return onStartPosition
 	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right) && (dom.left != dom.right){  //TODO choosing side
 		return onBoth
@@ -160,7 +144,6 @@ func play(plr *Player, num int, table *gameTable) bool{
 
 		return true
 	}else if tryAdd == onLeft{
-
 		tmpDom := plr.deck[num]
 		addDominoOnLeft(table, &tmpDom)
 		//hasADominoFromBank = append(hasADominoFromBank, false)
@@ -168,7 +151,6 @@ func play(plr *Player, num int, table *gameTable) bool{
 		plr.deck[num] = tmpDom
 
 		return true
-
 	}else if tryAdd == onRight{
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
@@ -178,14 +160,18 @@ func play(plr *Player, num int, table *gameTable) bool{
 
 		return true
 
-	}else if tryAdd == onBoth{  //TODO
-		tmpDom := plr.deck[num]
-		addDominoOnRight(table, &tmpDom)
-		plr.deck[num] = tmpDom
+	}else if tryAdd == onBoth{
+		if leftButtonClicked == 1 { //Left button on screen is clicked
+			tmpDom := plr.deck[num]
+			addDominoOnLeft(table, &tmpDom)
+			plr.deck[num] = tmpDom
+		}else { // Right button on screen is clicked or no button is clicked
+			tmpDom := plr.deck[num]
+			addDominoOnRight(table, &tmpDom)
+			plr.deck[num] = tmpDom
+		}
 		//hasADominoFromBank = append(hasADominoFromBank, false)
-
 		return true
-
 	}else{
 	/*	var dominoTmp domino
 		for _, element := range dominoesMap {
@@ -202,46 +188,39 @@ func play(plr *Player, num int, table *gameTable) bool{
 		}
 	*/	return false
 	}
-	return false
 }
 
 func computerPlay(plr *Player, table *gameTable) bool{
-
 	for num :=0; num< len(plr.deck); num++{
-
 		if plr.deck[num].assigned==2{
-		tryAdd := canBeAdded(table, &plr.deck[num])
-
-		if tryAdd == onStartPosition{
-			tmpDom := plr.deck[num]
-			addDominoOnStart(table, &tmpDom)
-			plr.deck[num] = tmpDom //domino changes x and y
-			return true
-		}else if tryAdd == onNone{
-			continue
-		}else if tryAdd == onLeft{
-			tmpDom := plr.deck[num]
-			addDominoOnLeft(table, &tmpDom)
-			plr.deck[num] = tmpDom
-			return true
-
-		}else if tryAdd == onRight{
-			tmpDom := plr.deck[num]
-			addDominoOnRight(table, &tmpDom)
-			plr.deck[num] = tmpDom
-			return true
-
-		}else if tryAdd == onBoth{  //TODO
-			tmpDom := plr.deck[num]
-			addDominoOnRight(table, &tmpDom)
-			plr.deck[num] = tmpDom
-			return true
-
-		}else{
-			fmt.Println("Nema dominu :(")
-			return true
+			tryAdd := canBeAdded(table, &plr.deck[num])
+			if tryAdd == onStartPosition{
+				tmpDom := plr.deck[num]
+				addDominoOnStart(table, &tmpDom)
+				plr.deck[num] = tmpDom //domino changes x and y
+				return true
+			}else if tryAdd == onNone{
+				continue
+			}else if tryAdd == onLeft{
+				tmpDom := plr.deck[num]
+				addDominoOnLeft(table, &tmpDom)
+				plr.deck[num] = tmpDom
+				return true
+			}else if tryAdd == onRight{
+				tmpDom := plr.deck[num]
+				addDominoOnRight(table, &tmpDom)
+				plr.deck[num] = tmpDom
+				return true
+			}else if tryAdd == onBoth{  //TODO
+				tmpDom := plr.deck[num]
+				addDominoOnRight(table, &tmpDom)
+				plr.deck[num] = tmpDom
+				return true
+			}else{
+				fmt.Println("Nema dominu :(")
+				return true
+			}
 		}
-	}
 	}
 	addDominoFromBankToComputer()
 	if computerPlay(&player2, table){
@@ -250,16 +229,14 @@ func computerPlay(plr *Player, table *gameTable) bool{
 	return false
 }
 
-
 func isWon(plr *Player) bool {
-	var forCheck int = 0
+	var forCheck = 0
 	if plr==&player1{
 		forCheck = 1
 	}
 	if plr==&player2{
 		forCheck=2
 	}
-
 	for _, dom := range plr.deck {
 		if dom.assigned == forCheck{
 			return false
@@ -268,10 +245,9 @@ func isWon(plr *Player) bool {
 	return true
 }
 
-
 func addFromBank(mouseX int, mouseY int){
 	var dominoTmp domino
-	var positionInMap int = -1
+	var positionInMap = -1
 
 	for i := 0; i < len(dominoesMap); i++ {
 		if dominoesMap[i].assigned == -1{
@@ -280,8 +256,9 @@ func addFromBank(mouseX int, mouseY int){
 			break
 		}
 	}
+
 	dominoTmp.assigned = 1	// TODO promeni na assigned kao argument da moze i player2
-	var foundEmptyPlace bool = false
+	var foundEmptyPlace = false
 
 	for i := 0; i < len(player1.deck); i++ {
 		if 	player1.deck[i].assigned==0 && hasADominoFromBank[i]==false{	// svaki put istu uzima jer nije obelezeno tako u player1 ili dominoMaps
@@ -300,12 +277,11 @@ func addFromBank(mouseX int, mouseY int){
 	}
 	dominoesMap[positionInMap] =dominoTmp
 	player1.deck = append(player1.deck, dominoTmp)
-
 }
 
 func addDominoFromBankToComputer(){
 	var dominoTmp domino
-	var positionInMap int = -1
+	var positionInMap = -1
 
 	for i := 0; i < len(dominoesMap); i++ {
 		if dominoesMap[i].assigned == -1{
@@ -314,8 +290,9 @@ func addDominoFromBankToComputer(){
 			break
 		}
 	}
+
 	dominoTmp.assigned = 2
-	var foundEmptyPlace bool = false
+	var foundEmptyPlace = false
 
 	for i := 0; i < len(player2.deck); i++ {
 		if 	player2.deck[i].assigned==0 {	// svaki put istu uzima jer nije obelezeno tako u player1 ili dominoMaps
@@ -334,5 +311,4 @@ func addDominoFromBankToComputer(){
 	dominoesMap[positionInMap] =dominoTmp
 	hasComputerDominoFromBank = append(hasComputerDominoFromBank, false)
 	player2.deck = append(player2.deck, dominoTmp)
-
 }
