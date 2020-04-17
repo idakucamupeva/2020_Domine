@@ -191,6 +191,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 }
 
 func computerPlay(plr *Player, table *gameTable) bool{
+
 	for num :=0; num< len(plr.deck); num++{
 		if plr.deck[num].assigned==2{
 			tryAdd := canBeAdded(table, &plr.deck[num])

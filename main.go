@@ -44,6 +44,7 @@ var scaleSize = 0.7
 var leftDominoCounter =0
 var rightDominoCounter =0
 
+
 func main(){
 	//Initialization
 	err := sdl.Init(sdl.INIT_EVERYTHING)
@@ -94,6 +95,11 @@ func main(){
 	//TODO  bank is empty
 	//emptyBankBtn := newButton(renderer, "img/bankEmpty.bmp", (float64(width)/6*5)/0.7, (float64(height)/2-float64(bankSize)/2)/0.7)
 
+	//final scene
+	player1WonScene := newFinalScene(renderer, "img/youWon.bmp", 200, 150)
+	trophyScene := newFinalScene(renderer, "img/trophy.bmp", 500, -150)
+
+	
 	initDomino()
 	initComputerDomino()
 	table := newGameTable()
@@ -112,6 +118,11 @@ func main(){
 	var rightBtnTmpX = float64(width)*0.3+leftAndRightSize+20
 	var rightBtnTmpY = float64(height)*0.9
 	//previousMouseState := currentMouseState
+
+
+	var player1Won = false  //player1 won signal
+	var player2Won = false	//player2 won signal
+
 
 	for {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
@@ -166,6 +177,8 @@ func main(){
 								if play(&player1, i, &table){
 									if isWon(&player1){
 										fmt.Println("Player1 won")
+										player1Won = true
+									
 									}
 
 									player1Active = !player1Active //false
@@ -173,6 +186,7 @@ func main(){
 									if computerPlay(&player2,&table){
 										if isWon(&player2){
 											fmt.Println("Player2 won")
+											player2Won = true
 										}
 										player1Active = !player1Active	//true
 									}/*else{
@@ -194,49 +208,59 @@ func main(){
 
 			}	//if active
 
-			renderer.SetDrawColor(255, 255, 255, 255)
+			renderer.SetDrawColor(255, 255, 255, 255) 	//background
 			renderer.Clear()
-			renderer.SetDrawColor(128, 0, 0, 0)
-			renderer.FillRect(&sdl.Rect{X: width/16, Y: height-(height/4+50), W: width/4*3, H: height/4})
-			renderer.FillRect(&sdl.Rect{X: width/16, Y: height/16, W: width/4*3, H: height/4}) //W: width-100
-			//renderer.FillRect(&sdl.Rect{50, 550, width/4*3, height/4})
-			renderer.SetDrawColor(50, 0, 128, 0)
 
-			leftBtn.drawButton(renderer, leftAndRightSize)
-			rightBtn.drawButton(renderer, leftAndRightSize)
+			if player1Won{
+					player1WonScene.drawScene(renderer, plr1WonWidth, plr1WonHeight)
+					trophyScene.drawScene(renderer, trophyWidth, trophyHeight)	
+					trophyScene.updateScene(5, 550, 220)
+				
+			}else if player2Won{
 
-			renderer.SetScale(0.7, 0.7)
+			}else{
+
+				renderer.SetDrawColor(128, 0, 0, 0)			//rectangles
+				renderer.FillRect(&sdl.Rect{X: width/16, Y: height-(height/4+50), W: width/4*3, H: height/4})
+				renderer.FillRect(&sdl.Rect{X: width/16, Y: height/16, W: width/4*3, H: height/4}) //W: width-100
+				//renderer.FillRect(&sdl.Rect{50, 550, width/4*3, height/4})
+
+				leftBtn.drawButton(renderer, leftAndRightSize)
+				rightBtn.drawButton(renderer, leftAndRightSize)
+
+				renderer.SetScale(0.7, 0.7)
 		
-			bankBtn.drawButton(renderer, bankSize)
+				bankBtn.drawButton(renderer, bankSize)
 
-			for _, dom := range player1.deck {
-				if dom.assigned == 1 {
-					dom.draw(renderer, 90.0, 0, 0)
-				}
-				if dom.assigned == 0 { //TODO rotation
-					if leftDominoCounter>5 || rightDominoCounter>2{
-						renderer.SetScale(0.4, 0.4)
-					}else{
-						renderer.SetScale(0.5, 0.5)
+				for _, dom := range player1.deck {
+					if dom.assigned == 1 {
+						dom.draw(renderer, 90.0, 0, 0)
 					}
-					dom.draw(renderer, dom.rotation, dominoWidth/2, dominoHeight/2)
-					renderer.SetScale(0.7, 0.7)
+					if dom.assigned == 0 { //TODO rotation
+						if leftDominoCounter>5 || rightDominoCounter>2{
+							renderer.SetScale(0.4, 0.4)
+						}else{
+							renderer.SetScale(0.5, 0.5)
+						}
+						dom.draw(renderer, dom.rotation, dominoWidth/2, dominoHeight/2)
+						renderer.SetScale(0.7, 0.7)
+					}
 				}
-			}
 
-			for _, dom := range player2.deck {
-				if dom.assigned == 2{
-					//	dom.drawHiddenDomino(renderer)
-					dom.draw(renderer,90, 0, 0)
-				}
-				if dom.assigned == 0 { //TODO rotation
-					if leftDominoCounter>5 || rightDominoCounter>2 {
-						renderer.SetScale(0.4, 0.4)
-					}else{
-						renderer.SetScale(0.5, 0.5)
+				for _, dom := range player2.deck {
+					if dom.assigned == 2{
+						//	dom.drawHiddenDomino(renderer)
+						dom.draw(renderer,90, 0, 0)
 					}
-					dom.draw(renderer, dom.rotation, dominoWidth/2, dominoHeight/2)
-					renderer.SetScale(0.7, 0.7)
+					if dom.assigned == 0 { //TODO rotation
+						if leftDominoCounter>5 || rightDominoCounter>2 {
+							renderer.SetScale(0.4, 0.4)
+						}else{
+							renderer.SetScale(0.5, 0.5)
+						}
+						dom.draw(renderer, dom.rotation, dominoWidth/2, dominoHeight/2)
+						renderer.SetScale(0.7, 0.7)
+					}
 				}
 			}
 
