@@ -25,7 +25,8 @@ const (
 )
 
 var tablePositionX = float64(width/16)/0.7
-var tablePositionY = float64(height-(height/4+50))/0.7
+//var tablePositionY = float64(height-(height/4+50))/0.7
+var tablePositionY = float64(height-(height/4))/0.7
 var tablePositionXOpponent =  float64(width/16)/0.7
 var tablePositionYOpponent = float64(height/16)/0.7
 

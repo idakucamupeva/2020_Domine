@@ -28,6 +28,7 @@ func getMouseState() mouseState{
 	return result
 }
 
+
 //Global variables
 var leftButtonClicked = 0
 var dominoesMap = make(map[int]domino, 28)
@@ -36,7 +37,8 @@ var player2 = newPlayer("bot", false, nil)
 var player1Active = true
 var dominoCounter = 0
 var dominoCounterOpponent = 0
-var width =int32(1000)
+//var width =int32(1000)
+var width =int32(1200)
 var height =int32(700)
 var hasADominoFromBank [] bool
 var hasComputerDominoFromBank [] bool
@@ -123,6 +125,7 @@ func main(){
 	var player1Won = false  //player1 won signal
 	var player2Won = false	//player2 won signal
 
+//	var changeCoordinate bool =true
 
 	for {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
@@ -144,7 +147,7 @@ func main(){
 					mouseX := currentMouseState.x
 					mouseY := currentMouseState.y
 
-					//fmt.Println(mouseX,mouseY)
+	//				fmt.Println(mouseX,mouseY)
 
 					//bank clicked
 					if !currentMouseState.leftButton && previousMouseState.leftButton{
@@ -171,6 +174,7 @@ func main(){
 					for i := 0; i < len(player1.deck); i++ {
 						x := player1.deck[i].x
 						y := player1.deck[i].y
+
 						if float64(mouseX) >= (x-dominoHeight)*scaleSize && float64(mouseX) <= x*scaleSize && float64(mouseY) <= (y+dominoWidth)*scaleSize && float64(mouseY) >= y*scaleSize {
 							//fmt.Println("Domino hit", i)
 							if player1.deck[i].assigned==1{
@@ -183,13 +187,16 @@ func main(){
 
 									player1Active = !player1Active //false
 
+
 									if computerPlay(&player2,&table){
 										if isWon(&player2){
 											fmt.Println("Player2 won")
 											player2Won = true
 										}
 										player1Active = !player1Active	//true
-									}/*else{
+									}
+
+									/*else{
 										if computerPlay(&player2,&table){
 											if isWon(&player2){
 												fmt.Println("Player2 won")
@@ -221,7 +228,8 @@ func main(){
 			}else{
 
 				renderer.SetDrawColor(128, 0, 0, 0)			//rectangles
-				renderer.FillRect(&sdl.Rect{X: width/16, Y: height-(height/4+50), W: width/4*3, H: height/4})
+				//renderer.FillRect(&sdl.Rect{X: width/16, Y: height-(height/4+50), W: width/4*3, H: height/4})
+				renderer.FillRect(&sdl.Rect{X: width/16, Y: height-(height/4), W: width/4*3, H: height/4})
 				renderer.FillRect(&sdl.Rect{X: width/16, Y: height/16, W: width/4*3, H: height/4}) //W: width-100
 				//renderer.FillRect(&sdl.Rect{50, 550, width/4*3, height/4})
 
@@ -229,7 +237,8 @@ func main(){
 				rightBtn.drawButton(renderer, leftAndRightSize)
 
 				renderer.SetScale(0.7, 0.7)
-		
+				//renderer.SetScale(float32(scaleSize), float32(scaleSize))
+
 				bankBtn.drawButton(renderer, bankSize)
 
 				for _, dom := range player1.deck {
@@ -237,7 +246,9 @@ func main(){
 						dom.draw(renderer, 90.0, 0, 0)
 					}
 					if dom.assigned == 0 { //TODO rotation
-						if leftDominoCounter>5 || rightDominoCounter>2{
+						if leftDominoCounter>6 || rightDominoCounter>6{
+							dom.y = dom.y / 0.7
+							//dom.y = dom.y / 0.8
 							renderer.SetScale(0.4, 0.4)
 						}else{
 							renderer.SetScale(0.5, 0.5)
@@ -253,7 +264,9 @@ func main(){
 						dom.draw(renderer,90, 0, 0)
 					}
 					if dom.assigned == 0 { //TODO rotation
-						if leftDominoCounter>5 || rightDominoCounter>2 {
+						if leftDominoCounter>6 || rightDominoCounter>6 {
+							//dom.y = dom.y / 0.8
+							dom.y = dom.y / 0.7
 							renderer.SetScale(0.4, 0.4)
 						}else{
 							renderer.SetScale(0.5, 0.5)

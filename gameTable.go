@@ -55,15 +55,36 @@ func addDominoOnLeft(table *gameTable, dom *domino) {
 	
 	//TODO
 
-	dom.x = xLeft
-	dom.y = yLeft
+//	dom.x = xLeft
+//	dom.y = yLeft
 	dom.assigned = 0 //on left
-	xLeft -= dominoWidth
+//	xLeft -= dominoWidth
 
 	if dom.right != tmpLeft {
 		dom.rotation = 180
 	}
-} 
+
+	if leftDominoCounter<7{
+		dom.x = xLeft
+		dom.y = yLeft
+		xLeft -= dominoWidth
+
+	}else if leftDominoCounter==7{
+		dom.rotation += 270
+		//xLeft += dominoWidth
+		dom.x = (xLeft + dominoWidth)*0.4 -10
+		dom.y = yLeft + dominoHeight +10
+		xLeft += dominoHeight
+		yLeft += dominoWidth/2 + dominoHeight/2
+
+	}else if leftDominoCounter>7{
+		dom.rotation += 180
+		xLeft += dominoWidth
+		dom.x = xLeft
+		dom.y = yLeft
+
+	}
+}
 
 //adding domino on right side of the deck
 func addDominoOnRight(table *gameTable, dom *domino){
@@ -80,14 +101,32 @@ func addDominoOnRight(table *gameTable, dom *domino){
 
 	//TODO 
 	
-	dom.x = xRight
-	dom.y = yRight
+	//dom.x = xRight
+	//dom.y = yRight
 	dom.assigned = 0 
-	xRight += dominoWidth
+	//xRight += dominoWidth
 
 	if dom.left != tmpRight {
 		dom.rotation = 180
 	}
+
+	if rightDominoCounter<10{
+		dom.x = xRight
+		dom.y = yRight
+		xRight += dominoWidth
+	}else if rightDominoCounter==10{
+		dom.x = xRight -  dominoHeight/2
+		dom.y = yRight - dominoWidth/4 +10
+		dom.rotation -= 90
+		xRight = xRight + dominoWidth/2
+		yRight = yRight - dominoWidth + dominoHeight/2 + 5
+	}else{
+		dom.rotation -=180
+		xRight -= dominoWidth
+		dom.x =xRight
+		dom.y = yRight
+	}
+
 }
 
 func addDominoOnStart(table *gameTable, dom *domino){
@@ -281,6 +320,8 @@ func addFromBank(mouseX int, mouseY int){
 }
 
 func addDominoFromBankToComputer(){
+
+	fmt.Println("Added domino from bank to computer ")
 	var dominoTmp domino
 	var positionInMap = -1
 
