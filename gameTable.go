@@ -110,11 +110,11 @@ func addDominoOnRight(table *gameTable, dom *domino){
 		dom.rotation = 180
 	}
 
-	if rightDominoCounter<10{
+	if rightDominoCounter<9{	//10
 		dom.x = xRight
 		dom.y = yRight
 		xRight += dominoWidth
-	}else if rightDominoCounter==10{
+	}else if rightDominoCounter==9{	//10
 		dom.x = xRight -  dominoHeight/2
 		dom.y = yRight - dominoWidth/4 +10
 		dom.rotation -= 90
@@ -263,9 +263,9 @@ func computerPlay(plr *Player, table *gameTable) bool{
 		}
 	}
 	addDominoFromBankToComputer()
-	if computerPlay(&player2, table){
+	/*if computerPlay(&player2, table){
 		return true
-	}
+	}*/
 	return false
 }
 
@@ -335,7 +335,7 @@ func addDominoFromBankToComputer(){
 
 	dominoTmp.assigned = 2
 	var foundEmptyPlace = false
-
+/*
 	for i := 0; i < len(player2.deck); i++ {
 		if 	player2.deck[i].assigned==0 {	// svaki put istu uzima jer nije obelezeno tako u player1 ili dominoMaps
 			dominoTmp.x = tablePositionXOpponent + (float64)((i+1)*dominoWidth/2)
@@ -345,7 +345,7 @@ func addDominoFromBankToComputer(){
 			break
 		}
 	}
-	if foundEmptyPlace==false{
+*/	if foundEmptyPlace==false{
 		dominoTmp.x = tablePositionXOpponent + (float64)(dominoCounterOpponent*dominoWidth/2)
 		dominoTmp.y = tablePositionYOpponent
 		dominoCounterOpponent += 1

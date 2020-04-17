@@ -178,22 +178,25 @@ func main(){
 						if float64(mouseX) >= (x-dominoHeight)*scaleSize && float64(mouseX) <= x*scaleSize && float64(mouseY) <= (y+dominoWidth)*scaleSize && float64(mouseY) >= y*scaleSize {
 							//fmt.Println("Domino hit", i)
 							if player1.deck[i].assigned==1{
-								if play(&player1, i, &table){
-									if isWon(&player1){
+								if play(&player1, i, &table) {
+									if isWon(&player1) {
 										fmt.Println("Player1 won")
 										player1Won = true
-									
+
 									}
 
 									player1Active = !player1Active //false
 
-
-									if computerPlay(&player2,&table){
-										if isWon(&player2){
+									if computerPlay(&player2, &table) {
+										if isWon(&player2) {
 											fmt.Println("Player2 won")
 											player2Won = true
 										}
-										player1Active = !player1Active	//true
+										player1Active = !player1Active //true
+									} else {
+										computerPlay(&player2, &table)
+										player1Active = !player1Active //true
+
 									}
 
 									/*else{
