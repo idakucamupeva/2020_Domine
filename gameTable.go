@@ -4,6 +4,8 @@ package main
 import (
 	//"github.com/veandco/go-sdl2/sdl"
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 type gameTable struct{
@@ -110,11 +112,11 @@ func addDominoOnRight(table *gameTable, dom *domino){
 		dom.rotation = 180
 	}
 
-	if rightDominoCounter<9{	//10
+	if rightDominoCounter<8{	//10
 		dom.x = xRight
 		dom.y = yRight
 		xRight += dominoWidth
-	}else if rightDominoCounter==9{	//10
+	}else if rightDominoCounter==8{	//10
 		dom.x = xRight -  dominoHeight/2
 		dom.y = yRight - dominoWidth/4 +10
 		dom.rotation -= 90
@@ -158,7 +160,7 @@ func (table gameTable) numOnRight() int{
 func canBeAdded(table *gameTable, dom *domino) addingOnTable{
 	if table.left == -1 {
 		return onStartPosition
-	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right) && (dom.left != dom.right){  //TODO choosing side
+	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right) && (dom.left != dom.right){  
 		return onBoth
 	}else if dom.left == table.left || dom.right == table.left{
 		return onLeft
@@ -285,16 +287,38 @@ func isWon(plr *Player) bool {
 	return true
 }
 
-func addFromBank(mouseX int, mouseY int){
+func addFromBank(){
 	var dominoTmp domino
 	var positionInMap = -1
 
-	for i := 0; i < len(dominoesMap); i++ {
-		if dominoesMap[i].assigned == -1{
-			dominoTmp = dominoesMap[i]
-			positionInMap = i
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	bankIsEmpty := true		//if the bank is empty, return from the loop
+
+	for{
+		for i:=0;i < 28;i++{
+			if dominoesMap[i].assigned == -1{
+				bankIsEmpty = false
+				
+			}
+		}
+
+		if bankIsEmpty{
+			fmt.Println("Nema domina u banci!!!")
+			return
+		}
+
+		randNum := r1.Intn(28)
+		if dominoesMap[randNum].assigned == -1{
+			dominoTmp = dominoesMap[randNum]
+			positionInMap = randNum
 			break
 		}
+
+	}
+
+	if positionInMap == -1{
+		return
 	}
 
 	dominoTmp.assigned = 1	// TODO promeni na assigned kao argument da moze i player2
@@ -325,12 +349,33 @@ func addDominoFromBankToComputer(){
 	var dominoTmp domino
 	var positionInMap = -1
 
-	for i := 0; i < len(dominoesMap); i++ {
-		if dominoesMap[i].assigned == -1{
-			dominoTmp = dominoesMap[i]
-			positionInMap = i
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	bankIsEmpty := true		//if the bank is empty, return from the loop
+
+	for{
+		
+		for i:=0;i < 28;i++{
+			if dominoesMap[i].assigned == -1{
+			bankIsEmpty = false
+			
+		}
+	}
+
+	if bankIsEmpty{
+		return
+	}
+		randNum := r1.Intn(28)
+		if dominoesMap[randNum].assigned == -1{
+			dominoTmp = dominoesMap[randNum]
+			positionInMap = randNum
 			break
 		}
+
+	}
+
+	if positionInMap == -1{
+		return
 	}
 
 	dominoTmp.assigned = 2

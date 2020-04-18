@@ -89,8 +89,8 @@ func main(){
 	}
 
 	//BUTTONS-textures
-	leftBtn := newButton(renderer, "img/leftBtn.bmp", float64(width)*0.3, float64(height)*0.9)
-	rightBtn := newButton(renderer, "img/rightBtn.bmp", float64(width)*0.3+leftAndRightSize+20, float64(height)*0.9)
+	leftBtn := newButton(renderer, "img/leftBtn.bmp", float64(width)*0.85, float64(height)*0.9)
+	rightBtn := newButton(renderer, "img/rightBtn.bmp", float64(width)*0.85+leftAndRightSize+20, float64(height)*0.9)
 	//bankBtn := newButton(renderer, "img/bank.bmp", (float64(width)/6*5)/0.7, (float64(height)/2-float64(bankSize)/2)/0.7)
 	bankBtn := newButton(renderer, "img/bank.bmp", (float64(width)/6*5)/0.7, float64(height)/7)
 
@@ -115,9 +115,9 @@ func main(){
 
 	var tmpX = float64(width)/6*5 //0.7
 	var tmpY = (float64(height)/7)*0.7
-	var leftBtnTmpX = float64(width)*0.3
+	var leftBtnTmpX = float64(width)*0.85
 	var leftBtnTmpY = float64(height)*0.9
-	var rightBtnTmpX = float64(width)*0.3+leftAndRightSize+20
+	var rightBtnTmpX = float64(width)*0.85+leftAndRightSize+20
 	var rightBtnTmpY = float64(height)*0.9
 	//previousMouseState := currentMouseState
 
@@ -153,7 +153,7 @@ func main(){
 					if !currentMouseState.leftButton && previousMouseState.leftButton{
 						if float64(mouseX) >= tmpX && float64(mouseX) <= tmpX+140 && float64(mouseY) >= tmpY && float64(mouseY) <= tmpY+140{
 							fmt.Println("Bank touched")
-							addFromBank(mouseX,mouseY)
+							addFromBank()
 						}
 					}
 					//left arrow on screen clicked
@@ -249,7 +249,7 @@ func main(){
 						dom.draw(renderer, 90.0, 0, 0)
 					}
 					if dom.assigned == 0 { //TODO rotation
-						if leftDominoCounter>6 || rightDominoCounter>6{
+						if leftDominoCounter>6 || rightDominoCounter>5{
 							dom.y = dom.y / 0.7
 							//dom.y = dom.y / 0.8
 							renderer.SetScale(0.4, 0.4)
@@ -263,11 +263,11 @@ func main(){
 
 				for _, dom := range player2.deck {
 					if dom.assigned == 2{
-						//	dom.drawHiddenDomino(renderer)
+							//dom.drawHiddenDomino(renderer)
 						dom.draw(renderer,90, 0, 0)
 					}
 					if dom.assigned == 0 { //TODO rotation
-						if leftDominoCounter>6 || rightDominoCounter>6 {
+						if leftDominoCounter>6 || rightDominoCounter>5 {
 							//dom.y = dom.y / 0.8
 							dom.y = dom.y / 0.7
 							renderer.SetScale(0.4, 0.4)
