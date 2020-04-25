@@ -106,9 +106,23 @@ func main(){
 	initComputerDomino()
 	table := newGameTable()
 
-	for i:=0; i< 21; i++{
+	for i:=0; i< 7; i++{
+		hasADominoFromBank = append(hasADominoFromBank, true)
+	}
+
+	for i:=7; i< 21; i++{
 		hasADominoFromBank = append(hasADominoFromBank, false)
 	}
+
+
+	for i:=0; i< 7; i++{
+		hasComputerDominoFromBank = append(hasComputerDominoFromBank, true)
+	}
+
+	for i:=7; i< 21; i++{
+		hasComputerDominoFromBank = append(hasComputerDominoFromBank, false)
+	}
+
 
 	currentMouseState := getMouseState()
 	previousMouseState := currentMouseState
@@ -152,7 +166,7 @@ func main(){
 					//bank clicked
 					if !currentMouseState.leftButton && previousMouseState.leftButton{
 						if float64(mouseX) >= tmpX && float64(mouseX) <= tmpX+140 && float64(mouseY) >= tmpY && float64(mouseY) <= tmpY+140{
-							fmt.Println("Bank touched")
+							//fmt.Println("Bank touched")
 							addFromBank()
 						}
 					}
@@ -222,12 +236,14 @@ func main(){
 			renderer.Clear()
 
 			if player1Won{
+
+					//fmt.Println("Player1 length: ", len(player1.deck))
 					player1WonScene.drawScene(renderer, plr1WonWidth, plr1WonHeight)
 					trophyScene.drawScene(renderer, trophyWidth, trophyHeight)	
 					trophyScene.updateScene(5, 550, 220)
 				
 			}else if player2Won{
-
+			//fmt.Println("Player1 length: ", len(player1.deck))
 			}else{
 
 				renderer.SetDrawColor(128, 0, 0, 0)			//rectangles
@@ -263,8 +279,8 @@ func main(){
 
 				for _, dom := range player2.deck {
 					if dom.assigned == 2{
-							//dom.drawHiddenDomino(renderer)
-						dom.draw(renderer,90, 0, 0)
+							dom.drawHiddenDomino(renderer)
+						//dom.draw(renderer,90, 0, 0)
 					}
 					if dom.assigned == 0 { //TODO rotation
 						if leftDominoCounter>6 || rightDominoCounter>5 {
