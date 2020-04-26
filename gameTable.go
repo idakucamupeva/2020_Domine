@@ -384,25 +384,21 @@ func addDominoFromBankToComputer(){
 	bankIsEmpty := true		//if the bank is empty, return from the loop
 
 	for{
-		
 		for i:=0;i < 28;i++{
 			if dominoesMap[i].assigned == -1{
 			bankIsEmpty = false
-			
+			}
 		}
-	}
-
-	if bankIsEmpty{
-		fmt.Println("Nema domina u banci za komp!!!")
-		return
-	}
+		if bankIsEmpty{
+			fmt.Println("Nema domina u banci za komp!!!")
+			return
+		}
 		randNum := r1.Intn(28)
 		if dominoesMap[randNum].assigned == -1{
 			dominoTmp = dominoesMap[randNum]
 			positionInMap = randNum
 			break
 		}
-
 	}
 
 	if positionInMap == -1{

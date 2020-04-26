@@ -210,7 +210,6 @@ func main(){
 										}
 										player1Active = !player1Active //true
 									} else {
-										computerPlay(&player2, &table)
 										player1Active = !player1Active //true
 
 									}
