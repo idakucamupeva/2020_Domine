@@ -167,7 +167,9 @@ func main(){
 					if !currentMouseState.leftButton && previousMouseState.leftButton{
 						if float64(mouseX) >= tmpX && float64(mouseX) <= tmpX+140 && float64(mouseY) >= tmpY && float64(mouseY) <= tmpY+140{
 							//fmt.Println("Bank touched")
+
 							addFromBank()
+
 						}
 					}
 					//left arrow on screen clicked
@@ -279,8 +281,8 @@ func main(){
 
 				for _, dom := range player2.deck {
 					if dom.assigned == 2{
-							dom.drawHiddenDomino(renderer)
-						//dom.draw(renderer,90, 0, 0)
+						//	dom.drawHiddenDomino(renderer)
+						dom.draw(renderer,90, 0, 0)
 					}
 					if dom.assigned == 0 { //TODO rotation
 						if leftDominoCounter>6 || rightDominoCounter>5 {

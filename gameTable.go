@@ -329,6 +329,7 @@ func addFromBank(){
 	dominoTmp.assigned = 1
 	var foundEmptyPlace = false
 	var currentIndex int
+
 	for i := 0; i < len(player1.deck); i++ {
 		if 	player1.deck[i].assigned==0 && hasADominoFromBank[i]==false{	// svaki put istu uzima jer nije obelezeno tako u player1 ili dominoMaps
 			dominoTmp.x = tablePositionX + (float64)((i+1)*dominoWidth/2)
@@ -337,6 +338,13 @@ func addFromBank(){
 			foundEmptyPlace = true
 			currentIndex = i
 			hasADominoFromBank[i] = true
+			//dodato
+			var dominoOnI domino = player1.deck[currentIndex]
+			player1.deck[currentIndex] = dominoTmp
+			player1.deck = append(player1.deck, dominoOnI)
+			dominoesMap[positionInMap] =dominoTmp
+			return
+			//kraj dodatog
 			break
 		}
 	}
@@ -350,8 +358,10 @@ func addFromBank(){
 		hasADominoFromBank[currentIndex] = true
 	}
 	dominoesMap[positionInMap] =dominoTmp
-	//fja da na stavi iti na kraj a ovaj dominotmp na i-ti
+	player1.deck = append(player1.deck, dominoTmp)
 
+	//fja da na stavi iti na kraj a ovaj dominotmp na i-ti
+	/*
 	var dominoOnI domino = player1.deck[currentIndex]
 	//fmt.Println("dominoI")
 	//printDomino(&dominoOnI)
@@ -359,7 +369,7 @@ func addFromBank(){
 	//fmt.Println("dominoI")
 	//printDomino(&dominoOnI)
 	player1.deck = append(player1.deck, dominoOnI)
-	/**/
+	*/
 	//player1.deck = append(player1.deck, dominoTmp)
 }
 
@@ -383,6 +393,7 @@ func addDominoFromBankToComputer(){
 	}
 
 	if bankIsEmpty{
+		fmt.Println("Nema domina u banci za komp!!!")
 		return
 	}
 		randNum := r1.Intn(28)
