@@ -233,7 +233,7 @@ func main(){
 
 			}	//if active
 
-			renderer.SetDrawColor(255, 255, 255, 255) 	//background
+			renderer.SetDrawColor(192, 192, 192, 192) 	//background
 			renderer.Clear()
 
 			if player1Won{
