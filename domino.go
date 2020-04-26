@@ -124,3 +124,98 @@ func initComputerDomino(){
 func printDomino(dom *domino){
 	fmt.Println(dom.left," ,",dom.right)
 }
+
+func firstMove(plr1 Player, plr2 Player) int{
+
+	max1 := -1
+	max2 := -1
+
+	for _, dom := range player1.deck {
+		if dom.left == dom.right{
+			if dom.left > max1{
+				max1 = dom.left
+			}
+		}
+
+	}
+
+
+	for _, dom := range player2.deck {
+		if dom.left == dom.right{
+			if dom.left > max2{
+				max2 = dom.left
+			}
+		}
+	}
+
+	if max1 != max2 {
+		if max1 > max2{
+			return 1
+		}else{
+			return 2
+		}
+	}
+
+	max1 = -1
+	max2 = -1
+
+
+	for _, dom := range player1.deck {
+		if dom.right == 6{
+			if dom.left > max1{
+				max1 = dom.left
+			}
+		}
+
+	}
+
+
+	for _, dom := range player2.deck {
+		if dom.right == 6{
+			if dom.left > max2{
+				max2 = dom.left
+			}
+		}
+	}
+
+	if max1 != max2 {
+		if max1 > max2{
+			return 1
+		}else{
+			return 2
+		}
+	}
+
+	max1 = -1
+	max2 = -1
+
+
+	for _, dom := range player1.deck {
+		if dom.right == 5{
+			if dom.left > max1{
+				max1 = dom.left
+			}
+		}
+
+	}
+
+
+	for _, dom := range player2.deck {
+		if dom.right == 5{
+			if dom.left > max2{
+				max2 = dom.left
+			}
+		}
+	}
+
+	if max1 != max2 {
+		if max1 > max2{
+			return 1
+		}else{
+			return 2
+		}
+	}
+
+	return 1
+
+}

@@ -139,6 +139,10 @@ func main(){
 	var player1Won = false  //player1 won signal
 	var player2Won = false	//player2 won signal
 
+	var playFirst = firstMove(player1, player2)
+	
+
+
 //	var changeCoordinate bool =true
 
 	for {
@@ -153,6 +157,12 @@ func main(){
 			}
 
 			currentMouseState = getMouseState()
+
+			if playFirst == 2{
+				computerPlay(&player2, &table)
+				playFirst = -1
+				fmt.Println("komp igra prvi!")
+			}
 
 			if player1Active {
 				switch event.(type) {
@@ -169,6 +179,8 @@ func main(){
 							//fmt.Println("Bank touched")
 
 							addFromBank()
+							player1.numOfDominoesInDeck++
+							fmt.Println(player1.numOfDominoesInDeck)
 
 						}
 					}
@@ -193,15 +205,19 @@ func main(){
 
 						if float64(mouseX) >= (x-dominoHeight)*scaleSize && float64(mouseX) <= x*scaleSize && float64(mouseY) <= (y+dominoWidth)*scaleSize && float64(mouseY) >= y*scaleSize {
 							//fmt.Println("Domino hit", i)
-							if player1.deck[i].assigned==1{
-								if play(&player1, i, &table) {
-									if isWon(&player1) {
-										fmt.Println("Player1 won")
-										player1Won = true
+							
+								
+									if player1.deck[i].assigned==1{
+										if play(&player1, i, &table) {
+											if isWon(&player1) {
+												fmt.Println("Player1 won")
+												player1Won = true
 
-									}
+											}
 
-									player1Active = !player1Active //false
+											player1Active = !player1Active //false
+									
+							
 
 									if computerPlay(&player2, &table) {
 										if isWon(&player2) {

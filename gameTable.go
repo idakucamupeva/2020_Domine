@@ -177,6 +177,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnStart(table, &tmpDom)
 		hasADominoFromBank[num] = false
+		plr.numOfDominoesInDeck--
 		plr.deck[num] = tmpDom //domino changes x and y
 
 		return true
@@ -184,7 +185,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnLeft(table, &tmpDom)
 		hasADominoFromBank[num] = false
-
+		plr.numOfDominoesInDeck--
 		plr.deck[num] = tmpDom
 
 		return true
@@ -192,6 +193,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		tmpDom := plr.deck[num]
 		addDominoOnRight(table, &tmpDom)
 		hasADominoFromBank[num] = false
+		plr.numOfDominoesInDeck--
 		plr.deck[num] = tmpDom
 
 		return true
@@ -208,6 +210,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 			plr.deck[num] = tmpDom
 			hasADominoFromBank[num] = false
 		}
+		plr.numOfDominoesInDeck--
 
 		return true
 	}else{
