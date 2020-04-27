@@ -154,8 +154,6 @@ func main(){
 				if t.Keysym.Sym == sdl.K_ESCAPE {
 					return
 				}
-			case *sdl.MouseButtonEvent:
-				println(player1Active)
 			}
 
 			currentMouseState = getMouseState()
@@ -163,7 +161,6 @@ func main(){
 			if playFirst == 2{
 				computerPlay(&player2, &table)
 				playFirst = -1
-				fmt.Println("komp igra prvi!")
 			}
 
 			if player1Active {
@@ -185,8 +182,8 @@ func main(){
 								fmt.Println(player1.numOfDominoesInDeck)
 								oneDominoOnly = false
 							}else {
+								oneDominoOnly = true
 								if computerPlay(&player2, &table) {
-									oneDominoOnly = true
 									if isWon(&player2) {
 										fmt.Println("Player2 won")
 										player2Won = true
