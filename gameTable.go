@@ -241,88 +241,131 @@ func play(plr *Player, num int, table *gameTable) bool{
 	}
 }
 
+func checkComputerMoves(plr *Player, table *gameTable, num int, dom *domino) bool {
+
+	
+	
+			tryAdd := canBeAdded(table, dom)
+			if tryAdd == onStartPosition{
+				tmpDom := dom
+				addDominoOnStart(table, dom)
+				dom = tmpDom //domino changes x and y
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else if tryAdd == onNone{
+				return false
+			}else if tryAdd == onLeft{
+				tmpDom := dom
+				addDominoOnLeft(table, dom)
+				dom = tmpDom
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else if tryAdd == onRight{
+				tmpDom := dom
+				addDominoOnRight(table, dom)
+				dom = tmpDom
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else if tryAdd == onBoth{  //TODO
+				tmpDom := dom
+				addDominoOnRight(table, tmpDom)
+				dom = tmpDom
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else{
+				return true
+			}
+		
+	
+	return false
+}
+
 func computerPlay(plr *Player, table *gameTable) bool{
 
-	for num :=0; num< len(plr.deck); num++{
+	var moves []*domino		//slice of possible moves
+	max := -1
+	var maxDom *domino		
+	var pos int
+
+	for num :=0; num < len(plr.deck); num++{
 		if plr.deck[num].assigned==2{
-			tryAdd := canBeAdded(table, &plr.deck[num])
-			if tryAdd == onStartPosition{
-				tmpDom := plr.deck[num]
-				addDominoOnStart(table, &tmpDom)
-				plr.deck[num] = tmpDom //domino changes x and y
-				hasComputerDominoFromBank[num] = false
-
-				return true
-			}else if tryAdd == onNone{
-				continue
-			}else if tryAdd == onLeft{
-				tmpDom := plr.deck[num]
-				addDominoOnLeft(table, &tmpDom)
-				plr.deck[num] = tmpDom
-				hasComputerDominoFromBank[num] = false
-
-				return true
-			}else if tryAdd == onRight{
-				tmpDom := plr.deck[num]
-				addDominoOnRight(table, &tmpDom)
-				plr.deck[num] = tmpDom
-				hasComputerDominoFromBank[num] = false
-
-				return true
-			}else if tryAdd == onBoth{  //TODO
-				tmpDom := plr.deck[num]
-				addDominoOnRight(table, &tmpDom)
-				plr.deck[num] = tmpDom
-				hasComputerDominoFromBank[num] = false
-
-				return true
-			}else{
-				return true
+			if canBeAdded(table, &plr.deck[num]) != onNone{
+				moves = append(moves, &plr.deck[num])
 			}
 		}
 	}
-	addDominoFromBankToComputer(table)
-	for num :=0; num< len(plr.deck); num++{
-		if plr.deck[num].assigned==2{
-			tryAdd := canBeAdded(table, &plr.deck[num])
-			if tryAdd == onStartPosition{
-				tmpDom := plr.deck[num]
-				addDominoOnStart(table, &tmpDom)
-				plr.deck[num] = tmpDom //domino changes x and y
-				hasComputerDominoFromBank[num] = false
 
-				return true
-			}else if tryAdd == onNone{
-				continue
-			}else if tryAdd == onLeft{
-				tmpDom := plr.deck[num]
-				addDominoOnLeft(table, &tmpDom)
-				plr.deck[num] = tmpDom
-				hasComputerDominoFromBank[num] = false
+	
 
-				return true
-			}else if tryAdd == onRight{
-				tmpDom := plr.deck[num]
-				addDominoOnRight(table, &tmpDom)
-				plr.deck[num] = tmpDom
-				hasComputerDominoFromBank[num] = false
-
-				return true
-			}else if tryAdd == onBoth{  //TODO
-				tmpDom := plr.deck[num]
-				addDominoOnRight(table, &tmpDom)
-				plr.deck[num] = tmpDom
-				hasComputerDominoFromBank[num] = false
-
-				return true
+	for i := 0; i < len(moves); i++ {
+		if moves[i].left > max || moves[i].right > max{
+			if moves[i].left > moves[i].right{
+				max = moves[i].left
 			}else{
-				return true
+				max = moves[i].right
+			}
+
+			maxDom = moves[i]
+		}
+	}
+
+	
+
+
+
+	
+
+	if max == -1 {
+		addDominoFromBankToComputer(table)
+	}else{
+		for num :=0; num< len(plr.deck); num++{
+			if maxDom == &plr.deck[num]{
+				pos = num
+			}
+		}
+		if checkComputerMoves(plr, table, pos, maxDom){
+			return true
+		}
+	}
+
+	for num :=0; num < len(plr.deck); num++{
+		if plr.deck[num].assigned==2{
+			if canBeAdded(table, &plr.deck[num]) != onNone{
+				moves = append(moves, &plr.deck[num])
 			}
 		}
 	}
-	/*if computerPlay(&player2, table){
-		return true
-	}*/
+
+	for i := 0; i < len(moves); i++ {
+		if moves[i].left > max || moves[i].right > max{
+			if moves[i].left > moves[i].right{
+				max = moves[i].left
+			}else{
+				max = moves[i].right
+			}
+
+			maxDom = moves[i]
+		}
+	}
+
+
+	if max == -1 {
+		addDominoFromBankToComputer(table)
+	}else{
+		for num :=0; num< len(plr.deck); num++{
+			if maxDom == &plr.deck[num]{
+				pos = num
+			}
+		}
+		if checkComputerMoves(plr, table, pos, maxDom){
+			return true
+		}
+	}
+
 	return false
 }
 
