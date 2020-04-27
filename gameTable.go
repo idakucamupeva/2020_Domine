@@ -169,7 +169,7 @@ func canBeAdded(table *gameTable, dom *domino) addingOnTable{
 }
 
 func hasMove(plr *Player, table *gameTable) bool {
-	fmt.Println("hasMove!!!?")
+	
 	for _, dom := range plr.deck {
 		if canBeAdded(table, &dom) != onNone && dom.assigned != 0{
 			return true
