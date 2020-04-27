@@ -45,7 +45,7 @@ var hasComputerDominoFromBank [] bool
 var scaleSize = 0.7
 var leftDominoCounter =0
 var rightDominoCounter =0
-
+var oneDominoOnly = true
 
 func main(){
 	//Initialization
@@ -154,6 +154,8 @@ func main(){
 				if t.Keysym.Sym == sdl.K_ESCAPE {
 					return
 				}
+			case *sdl.MouseButtonEvent:
+				println(player1Active)
 			}
 
 			currentMouseState = getMouseState()
@@ -177,11 +179,24 @@ func main(){
 					if !currentMouseState.leftButton && previousMouseState.leftButton{
 						if float64(mouseX) >= tmpX && float64(mouseX) <= tmpX+140 && float64(mouseY) >= tmpY && float64(mouseY) <= tmpY+140{
 							//fmt.Println("Bank touched")
+							if oneDominoOnly {
+								addFromBank()
+								player1.numOfDominoesInDeck++
+								fmt.Println(player1.numOfDominoesInDeck)
+								oneDominoOnly = false
+							}else {
+								if computerPlay(&player2, &table) {
+									oneDominoOnly = true
+									if isWon(&player2) {
+										fmt.Println("Player2 won")
+										player2Won = true
+									}
+									player1Active = true
+								} else {
+									player1Active = true //true
 
-							addFromBank()
-							player1.numOfDominoesInDeck++
-							fmt.Println(player1.numOfDominoesInDeck)
-
+								}
+							}
 						}
 					}
 					//left arrow on screen clicked
@@ -220,6 +235,7 @@ func main(){
 							
 
 									if computerPlay(&player2, &table) {
+										oneDominoOnly = true
 										if isWon(&player2) {
 											fmt.Println("Player2 won")
 											player2Won = true
@@ -227,6 +243,7 @@ func main(){
 										player1Active = !player1Active //true
 									} else {
 										player1Active = !player1Active //true
+										oneDominoOnly = true
 
 									}
 

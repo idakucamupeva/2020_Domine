@@ -273,6 +273,45 @@ func computerPlay(plr *Player, table *gameTable) bool{
 		}
 	}
 	addDominoFromBankToComputer()
+	for num :=0; num< len(plr.deck); num++{
+		if plr.deck[num].assigned==2{
+			tryAdd := canBeAdded(table, &plr.deck[num])
+			if tryAdd == onStartPosition{
+				tmpDom := plr.deck[num]
+				addDominoOnStart(table, &tmpDom)
+				plr.deck[num] = tmpDom //domino changes x and y
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else if tryAdd == onNone{
+				continue
+			}else if tryAdd == onLeft{
+				tmpDom := plr.deck[num]
+				addDominoOnLeft(table, &tmpDom)
+				plr.deck[num] = tmpDom
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else if tryAdd == onRight{
+				tmpDom := plr.deck[num]
+				addDominoOnRight(table, &tmpDom)
+				plr.deck[num] = tmpDom
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else if tryAdd == onBoth{  //TODO
+				tmpDom := plr.deck[num]
+				addDominoOnRight(table, &tmpDom)
+				plr.deck[num] = tmpDom
+				hasComputerDominoFromBank[num] = false
+
+				return true
+			}else{
+				fmt.Println("Nema dominu :(")
+				return true
+			}
+		}
+	}
 	/*if computerPlay(&player2, table){
 		return true
 	}*/
