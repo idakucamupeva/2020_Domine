@@ -168,6 +168,16 @@ func canBeAdded(table *gameTable, dom *domino) addingOnTable{
 	}
 }
 
+func hasMove(plr *Player, table *gameTable) bool {
+	fmt.Println("hasMove!!!?")
+	for _, dom := range plr.deck {
+		if canBeAdded(table, &dom) != onNone && dom.assigned != 0{
+			return true
+		}
+	}
+	return false
+}
+
 
 func play(plr *Player, num int, table *gameTable) bool{
 
@@ -272,7 +282,7 @@ func computerPlay(plr *Player, table *gameTable) bool{
 			}
 		}
 	}
-	addDominoFromBankToComputer()
+	addDominoFromBankToComputer(table)
 	for num :=0; num< len(plr.deck); num++{
 		if plr.deck[num].assigned==2{
 			tryAdd := canBeAdded(table, &plr.deck[num])
@@ -334,7 +344,7 @@ func isWon(plr *Player) bool {
 	return true
 }
 
-func addFromBank(){
+func addFromBank(table *gameTable){
 	var dominoTmp domino
 	var positionInMap = -1
 
@@ -352,6 +362,17 @@ func addFromBank(){
 
 		if bankIsEmpty{
 			fmt.Println("Nema domina u banci!!!")
+			if !hasMove(&player1, table) && !hasMove(&player2, table){
+				
+				if countPoints(&player1, &player2) == 1{
+					player1Won = true
+				}else if countPoints(&player1, &player2) == 2{
+					player2Won = true
+				}else{
+					//TODO
+				}
+
+			}
 			return
 		}
 
@@ -415,7 +436,7 @@ func addFromBank(){
 	//player1.deck = append(player1.deck, dominoTmp)
 }
 
-func addDominoFromBankToComputer(){
+func addDominoFromBankToComputer(table *gameTable){
 
 	fmt.Println("Added domino from bank to computer ")
 	var dominoTmp domino
@@ -433,6 +454,15 @@ func addDominoFromBankToComputer(){
 		}
 		if bankIsEmpty{
 			fmt.Println("Nema domina u banci za komp!!!")
+			if !hasMove(&player1, table) && !hasMove(&player2, table){
+				if countPoints(&player1, &player2) == 1{
+					player1Won = true
+				}else if countPoints(&player1, &player2) == 2{
+					player2Won = true
+				}else{
+					//TODO
+				}
+			}
 			return
 		}
 		randNum := r1.Intn(28)
@@ -479,4 +509,24 @@ func addDominoFromBankToComputer(){
 	player2.deck = append(player2.deck, dominoOnI)
 
 	//player2.deck = append(player2.deck, dominoTmp)
+}
+
+func countPoints(plr1, plr2 *Player) int {
+	points1 := 0
+	points2 := 0
+	
+	for _, dom := range plr1.deck {
+		points1 += dom.left + dom.right
+	}
+	for _, dom := range plr2.deck {
+		points2 += dom.left + dom.right
+	}
+
+	if points1 > points2{
+		return 1
+	}else if points2 > points1{
+		return 2
+	}else{
+		return 0
+	}
 }

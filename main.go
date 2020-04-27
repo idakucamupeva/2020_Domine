@@ -46,6 +46,9 @@ var scaleSize = 0.7
 var leftDominoCounter =0
 var rightDominoCounter =0
 var oneDominoOnly = true
+var player1Won = false  //player1 won signal
+var player2Won = false	//player2 won signal
+
 
 func main(){
 	//Initialization
@@ -136,9 +139,6 @@ func main(){
 	//previousMouseState := currentMouseState
 
 
-	var player1Won = false  //player1 won signal
-	var player2Won = false	//player2 won signal
-
 	var playFirst = firstMove(player1, player2)
 	
 
@@ -180,7 +180,7 @@ func main(){
 						if float64(mouseX) >= tmpX && float64(mouseX) <= tmpX+140 && float64(mouseY) >= tmpY && float64(mouseY) <= tmpY+140{
 							//fmt.Println("Bank touched")
 							if oneDominoOnly {
-								addFromBank()
+								addFromBank(&table)
 								player1.numOfDominoesInDeck++
 								fmt.Println(player1.numOfDominoesInDeck)
 								oneDominoOnly = false
