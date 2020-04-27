@@ -302,14 +302,10 @@ func computerPlay(plr *Player, table *gameTable) bool{
 	
 
 	for i := 0; i < len(moves); i++ {
-		if moves[i].left > max || moves[i].right > max{
-			if moves[i].left > moves[i].right{
-				max = moves[i].left
-			}else{
-				max = moves[i].right
-			}
-
+		if moves[i].left + moves[i].right > max{
+			max = moves[i].left+moves[i].right
 			maxDom = moves[i]
+		
 		}
 	}
 
@@ -341,20 +337,17 @@ func computerPlay(plr *Player, table *gameTable) bool{
 	}
 
 	for i := 0; i < len(moves); i++ {
-		if moves[i].left > max || moves[i].right > max{
-			if moves[i].left > moves[i].right{
-				max = moves[i].left
-			}else{
-				max = moves[i].right
-			}
-
+		if moves[i].left + moves[i].right > max{
+			max = moves[i].left+moves[i].right
 			maxDom = moves[i]
 		}
+
+		
 	}
 
 
 	if max == -1 {
-		addDominoFromBankToComputer(table)
+		return false
 	}else{
 		for num :=0; num< len(plr.deck); num++{
 			if maxDom == &plr.deck[num]{
