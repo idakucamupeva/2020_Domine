@@ -277,7 +277,6 @@ func computerPlay(plr *Player, table *gameTable) bool{
 
 				return true
 			}else{
-				fmt.Println("Nema dominu :(")
 				return true
 			}
 		}
@@ -317,7 +316,6 @@ func computerPlay(plr *Player, table *gameTable) bool{
 
 				return true
 			}else{
-				fmt.Println("Nema dominu :(")
 				return true
 			}
 		}
