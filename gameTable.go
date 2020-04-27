@@ -550,15 +550,19 @@ func countPoints(plr1, plr2 *Player) int {
 	points2 := 0
 	
 	for _, dom := range plr1.deck {
-		points1 += dom.left + dom.right
+		if dom.assigned == 1{
+			points1 += dom.left + dom.right
+		}
 	}
 	for _, dom := range plr2.deck {
-		points2 += dom.left + dom.right
+		if dom.assigned == 2{
+			points2 += dom.left + dom.right
+		}
 	}
 
-	if points1 > points2{
+	if points1 < points2{
 		return 1
-	}else if points2 > points1{
+	}else if points2 < points1{
 		return 2
 	}else{
 		return 0
