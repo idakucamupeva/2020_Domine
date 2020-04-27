@@ -523,6 +523,11 @@ func addDominoFromBankToComputer(table *gameTable){
 			foundEmptyPlace = true
 			currentIndex = i
 			hasComputerDominoFromBank[i] = true
+			var dominoOnI domino = player2.deck[currentIndex]
+			player2.deck[currentIndex] = dominoTmp
+			player2.deck = append(player2.deck, dominoOnI)
+			dominoesMap[positionInMap] =dominoTmp
+			return
 			break
 		}
 	}
@@ -537,10 +542,7 @@ func addDominoFromBankToComputer(table *gameTable){
 
 	dominoesMap[positionInMap] =dominoTmp
 
-	var dominoOnI domino = player2.deck[currentIndex]
-	player2.deck[currentIndex] = dominoTmp
-
-	player2.deck = append(player2.deck, dominoOnI)
+	player2.deck = append(player2.deck, dominoTmp)
 
 	//player2.deck = append(player2.deck, dominoTmp)
 }
