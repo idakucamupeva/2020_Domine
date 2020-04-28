@@ -50,11 +50,27 @@ func (scene *FinalScene)drawScene(renderer *sdl.Renderer, width, height int){
 		&sdl.Rect{X: int32(x), Y: int32(y), W: int32(width), H: int32(height)})
 }
 
-func (scene *FinalScene)updateScene(k, x_fin, y_fin float64){
+func (scene *FinalScene)updateScene(k, x_fin, y_fin float64) bool{
 	if scene.x <= x_fin{
 		scene. x += k
 	}
 	if scene.y <= y_fin {
 		scene.y += k
 	}
+	if scene.x > x_fin && scene.y > y_fin{
+		return true
+	}
+	return false
+}
+
+func finalPlayer1Won(renderer *sdl.Renderer){
+
+	player1WonScene := newFinalScene(renderer, "img/youWon.bmp", 200, 150)
+	trophyScene := newFinalScene(renderer, "img/trophy.bmp", 500, -150)
+
+	for (!trophyScene.updateScene(5, 550, 220)){
+		player1WonScene.drawScene(renderer, plr1WonWidth, plr1WonHeight)
+		trophyScene.drawScene(renderer, trophyWidth, trophyHeight)	
+	}
+	
 }

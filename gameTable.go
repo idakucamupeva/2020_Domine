@@ -2,7 +2,7 @@ package main
 
 
 import (
-	//"github.com/veandco/go-sdl2/sdl"
+	"github.com/veandco/go-sdl2/sdl"
 	"fmt"
 	"math/rand"
 	"time"
@@ -285,6 +285,8 @@ func checkComputerMoves(plr *Player, table *gameTable, num int, dom *domino) boo
 }
 
 func computerPlay(plr *Player, table *gameTable) bool{
+
+	sdl.Delay(700)
 
 	var moves []*domino		//slice of possible moves
 	max := -1

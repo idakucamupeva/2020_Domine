@@ -229,7 +229,7 @@ func main(){
 
 											player1Active = !player1Active //false
 									
-							
+																	
 
 									if computerPlay(&player2, &table) {
 										oneDominoOnly = true
@@ -337,6 +337,8 @@ func main(){
 
 			renderer.SetScale(1, 1)
 			renderer.Present()
+
+
 
 			previousMouseState = currentMouseState
 		}
