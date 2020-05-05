@@ -155,7 +155,8 @@ func (table gameTable) numOnRight() int{
 func canBeAdded(table *gameTable, dom *domino) addingOnTable{
 	if table.left == -1 {
 		return onStartPosition
-	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right){
+	} else if (table.left==dom.left && table.right==dom.right) || (table.right==dom.left && table.left==dom.right){
+	//if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right) && (dom.left != dom.right){
 		return onBoth
 	}else if dom.left == table.left || dom.right == table.left{
 		return onLeft
@@ -563,8 +564,11 @@ func countPoints(plr1, plr2 *Player) int {
 	}
 
 	if points1 < points2{
+		fmt.Println("Player1 won by countiing points")
 		return 1
 	}else if points2 < points1{
+
+		fmt.Println("Player2 won by countiing points")
 		return 2
 	}else{
 		return 0

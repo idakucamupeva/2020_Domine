@@ -168,6 +168,18 @@ func start(){
 
 					//				fmt.Println(mouseX,mouseY)
 
+					//left arrow on screen clicked
+					if !currentMouseState.leftButton && previousMouseState.leftButton{
+						if float64(mouseX) >= leftBtnTmpX && float64(mouseX) <= leftBtnTmpX+leftAndRightSize && float64(mouseY) >= leftBtnTmpY && float64(mouseY) <= leftBtnTmpY+leftAndRightSize{
+							leftButtonClicked = 1
+						}
+					}
+					//right arrow on screen clicked
+					if !currentMouseState.leftButton && previousMouseState.leftButton{
+						if float64(mouseX) >= rightBtnTmpX && float64(mouseX) <= rightBtnTmpX+leftAndRightSize && float64(mouseY) >= rightBtnTmpY && float64(mouseY) <= rightBtnTmpY+leftAndRightSize{
+							leftButtonClicked = 0
+						}
+					}
 					//bank clicked
 					if !currentMouseState.leftButton && previousMouseState.leftButton{
 						if float64(mouseX) >= tmpX && float64(mouseX) <= tmpX+140 && float64(mouseY) >= tmpY && float64(mouseY) <= tmpY+140{
