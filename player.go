@@ -1,11 +1,6 @@
 package main
 
 
-import (
-	//"github.com/veandco/go-sdl2/sdl"
-)
-
-
 type Player struct{
 	name string
 	isHuman bool

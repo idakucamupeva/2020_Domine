@@ -1,8 +1,6 @@
 package main
 
-
 import (
-	"github.com/veandco/go-sdl2/sdl"
 	"fmt"
 	"math/rand"
 	"time"
@@ -56,7 +54,7 @@ func addDominoOnLeft(table *gameTable, dom *domino) {
 	}else{
 		table.left = dom.left
 	}
-	
+
 	//TODO
 
 //	dom.x = xLeft
@@ -157,7 +155,7 @@ func (table gameTable) numOnRight() int{
 func canBeAdded(table *gameTable, dom *domino) addingOnTable{
 	if table.left == -1 {
 		return onStartPosition
-	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right) && (dom.left != dom.right){  
+	} else if (dom.left == table.left || dom.left == table.right) && (dom.right == table.left || dom.right == table.right){
 		return onBoth
 	}else if dom.left == table.left || dom.right == table.left{
 		return onLeft
@@ -189,7 +187,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		hasADominoFromBank[num] = false
 		plr.numOfDominoesInDeck--
 		plr.deck[num] = tmpDom //domino changes x and y
-
+		//fmt.Println("on start")
 		return true
 	}else if tryAdd == onLeft{
 		tmpDom := plr.deck[num]
@@ -197,7 +195,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 		hasADominoFromBank[num] = false
 		plr.numOfDominoesInDeck--
 		plr.deck[num] = tmpDom
-
+		//fmt.Println("on left")
 		return true
 	}else if tryAdd == onRight{
 		tmpDom := plr.deck[num]
@@ -205,10 +203,11 @@ func play(plr *Player, num int, table *gameTable) bool{
 		hasADominoFromBank[num] = false
 		plr.numOfDominoesInDeck--
 		plr.deck[num] = tmpDom
-
+		//fmt.Println("on right")
 		return true
 
 	}else if tryAdd == onBoth{
+		//fmt.Println("on both")
 		if leftButtonClicked == 1 { //Left button on screen is clicked
 			tmpDom := plr.deck[num]
 			addDominoOnLeft(table, &tmpDom)
@@ -224,6 +223,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 
 		return true
 	}else{
+		//fmt.Println("none")
 	/*	var dominoTmp domino
 		for _, element := range dominoesMap {
 			if element.assigned ==-1{
@@ -286,7 +286,6 @@ func checkComputerMoves(plr *Player, table *gameTable, num int, dom *domino) boo
 
 func computerPlay(plr *Player, table *gameTable) bool{
 
-	sdl.Delay(700)
 
 	var moves []*domino		//slice of possible moves
 	max := -1
@@ -474,7 +473,6 @@ func addFromBank(table *gameTable){
 
 func addDominoFromBankToComputer(table *gameTable){
 
-	fmt.Println("Added domino from bank to computer ")
 	var dominoTmp domino
 	var positionInMap = -1
 

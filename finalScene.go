@@ -3,7 +3,6 @@ package main
 import(
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
-	
 )
 
 
@@ -68,7 +67,7 @@ func finalPlayer1Won(renderer *sdl.Renderer){
 	player1WonScene := newFinalScene(renderer, "img/youWon.bmp", 200, 150)
 	trophyScene := newFinalScene(renderer, "img/trophy.bmp", 500, -150)
 
-	for (!trophyScene.updateScene(5, 550, 220)){
+	for !trophyScene.updateScene(5, 550, 220) {
 		player1WonScene.drawScene(renderer, plr1WonWidth, plr1WonHeight)
 		trophyScene.drawScene(renderer, trophyWidth, trophyHeight)	
 	}
