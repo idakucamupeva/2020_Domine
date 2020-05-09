@@ -3,6 +3,7 @@ package main
 import(
 	"fmt"
 	"github.com/veandco/go-sdl2/sdl"
+	
 )
 
 
@@ -12,10 +13,8 @@ type FinalScene struct{
 }
 
 const(
-	plr1WonWidth = 600
-	plr1WonHeight = 400
-	trophyWidth = 203
-	trophyHeight = 273
+	finalSceneWidth = 800
+	finalSceneHeight = 600
 )
 
 func textureFromBMPFinal(renderer *sdl.Renderer, filename string) *sdl.Texture{
@@ -34,6 +33,8 @@ func textureFromBMPFinal(renderer *sdl.Renderer, filename string) *sdl.Texture{
 	return tex
 }
 
+
+//final scene constructor
 func newFinalScene(renderer *sdl.Renderer, filename string, x, y float64) (scene FinalScene){
 	scene.tex = textureFromBMPFinal(renderer, filename)
 	scene.x = x
@@ -49,26 +50,3 @@ func (scene *FinalScene)drawScene(renderer *sdl.Renderer, width, height int){
 		&sdl.Rect{X: int32(x), Y: int32(y), W: int32(width), H: int32(height)})
 }
 
-func (scene *FinalScene)updateScene(k, xFin, yFin float64) bool{
-	if scene.x <= xFin {
-		scene. x += k
-	}
-	if scene.y <= yFin {
-		scene.y += k
-	}
-	if scene.x > xFin && scene.y > yFin {
-		return true
-	}
-	return false
-}
-
-func finalPlayer1Won(renderer *sdl.Renderer){
-
-	player1WonScene := newFinalScene(renderer, "img/youWon.bmp", 200, 150)
-	trophyScene := newFinalScene(renderer, "img/trophy.bmp", 500, -150)
-
-	for !trophyScene.updateScene(5, 550, 220) {
-		player1WonScene.drawScene(renderer, plr1WonWidth, plr1WonHeight)
-		trophyScene.drawScene(renderer, trophyWidth, trophyHeight)	
-	}
-}

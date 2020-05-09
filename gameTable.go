@@ -26,6 +26,7 @@ var xLeft = startPositionWidth+dominoWidth
 var yLeft = startPositionHeight
 var xRight = startPositionWidth+2*dominoWidth
 var yRight = startPositionHeight
+var countingPoints = false
 
 type addingOnTable int
 
@@ -129,6 +130,7 @@ func addDominoOnStart(table *gameTable, dom *domino){
 	dom.assigned = 0 // on left
 	xLeft -= dominoWidth
 }
+
 
 func (table gameTable) numOnLeft() int{
 	return table.left
@@ -496,9 +498,11 @@ func countPoints(plr1, plr2 *Player) int {
 
 	if points1 < points2{
 		fmt.Println("Player1 won by counting points")
+		countingPoints = true
 		return 1
 	}else if points2 < points1{
 		fmt.Println("Player2 won by counting points")
+		countingPoints = true
 		return 2
 	}else{
 		return 0

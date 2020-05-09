@@ -32,7 +32,7 @@ func textureFromBMPBtn(renderer *sdl.Renderer, filename string) *sdl.Texture{
 	return tex
 }
 
-
+//button constructor
 func newButton(renderer *sdl.Renderer, filename string, x, y float64) (but Button){
 	but.tex = textureFromBMPBtn(renderer, filename)
 	but.x = x

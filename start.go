@@ -93,8 +93,12 @@ func start(){
 	bankBtn := newButton(renderer, "img/bank.bmp", (float64(width)/6*5)/0.7, float64(height)/7)
 
 	//final scene
-	player1WonScene := newFinalScene(renderer, "img/youWon.bmp", 200, 150)
-	trophyScene := newFinalScene(renderer, "img/trophy.bmp", 500, -150)
+	player1WonScene1 := newFinalScene(renderer, "img/youWon1.bmp", 200, 50)
+	player1WonScene2 := newFinalScene(renderer, "img/youWon2.bmp", 200, 50)
+	
+	player2WonScene1 := newFinalScene(renderer, "img/youLost1.bmp", 200, 50)
+	player2WonScene2 := newFinalScene(renderer, "img/youLost2.bmp", 200, 50)
+	
 
 
 	initDomino()
@@ -234,11 +238,20 @@ func start(){
 			renderer.SetDrawColor(192, 192, 192, 192) 	//background
 			renderer.Clear()
 
-			if player1Won{
-				player1WonScene.drawScene(renderer, plr1WonWidth, plr1WonHeight)
-				trophyScene.drawScene(renderer, trophyWidth, trophyHeight)
-				trophyScene.updateScene(5, 550, 220)
-			}else if player2Won{
+			if player1Won {
+				if countingPoints{
+					player1WonScene2.drawScene(renderer, finalSceneWidth, finalSceneHeight)
+				}else{
+					player1WonScene1.drawScene(renderer, finalSceneWidth, finalSceneHeight)
+				}
+
+			}else if player2Won {
+				if countingPoints{
+					player2WonScene2.drawScene(renderer, finalSceneWidth, finalSceneHeight)
+				}else{
+					player2WonScene1.drawScene(renderer, finalSceneWidth, finalSceneHeight)
+				}
+
 
 			}else{
 				renderer.SetDrawColor(128, 0, 0, 0)//rectangles

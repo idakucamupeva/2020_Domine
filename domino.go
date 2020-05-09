@@ -119,6 +119,8 @@ func initComputerDomino(){
 	dominoCounterOpponent = 8
 }
 
+
+//function returns who plays first
 func firstMove(plr1 Player, plr2 Player) int{
 
 	max1 := -1
