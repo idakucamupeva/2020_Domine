@@ -1,6 +1,6 @@
 # 2020_Traditional-dominoes-game
 
-Implementation of traditional dominoes table game in programming languge GO using SDL2 graphics library.
+Implementation of traditional dominoes table game in programming language GO using SDL2 graphics library.
 
 ## Prerequisites
 
