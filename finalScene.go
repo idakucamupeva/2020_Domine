@@ -49,14 +49,14 @@ func (scene *FinalScene)drawScene(renderer *sdl.Renderer, width, height int){
 		&sdl.Rect{X: int32(x), Y: int32(y), W: int32(width), H: int32(height)})
 }
 
-func (scene *FinalScene)updateScene(k, x_fin, y_fin float64) bool{
-	if scene.x <= x_fin{
+func (scene *FinalScene)updateScene(k, xFin, yFin float64) bool{
+	if scene.x <= xFin {
 		scene. x += k
 	}
-	if scene.y <= y_fin {
+	if scene.y <= yFin {
 		scene.y += k
 	}
-	if scene.x > x_fin && scene.y > y_fin{
+	if scene.x > xFin && scene.y > yFin {
 		return true
 	}
 	return false
@@ -71,5 +71,4 @@ func finalPlayer1Won(renderer *sdl.Renderer){
 		player1WonScene.drawScene(renderer, plr1WonWidth, plr1WonHeight)
 		trophyScene.drawScene(renderer, trophyWidth, trophyHeight)	
 	}
-	
 }

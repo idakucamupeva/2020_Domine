@@ -119,10 +119,6 @@ func initComputerDomino(){
 	dominoCounterOpponent = 8
 }
 
-func printDomino(dom *domino){
-	fmt.Println(dom.left," ,",dom.right)
-}
-
 func firstMove(plr1 Player, plr2 Player) int{
 
 	max1 := -1
