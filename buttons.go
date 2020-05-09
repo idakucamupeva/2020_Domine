@@ -44,6 +44,10 @@ func newButton(renderer *sdl.Renderer, filename string, x, y float64) (but Butto
 func (but *Button)drawButton(renderer *sdl.Renderer, size int){
 	x := but.x 
 	y := but.y 
-	renderer.Copy(but.tex, &sdl.Rect{W: int32(size), H: int32(size)},
+	err := renderer.Copy(but.tex, &sdl.Rect{W: int32(size), H: int32(size)},
 		&sdl.Rect{X: int32(x), Y: int32(y), W: int32(size), H: int32(size)})
+	if err != nil {
+		fmt.Println("error: ", err)
+		return
+	}
 }

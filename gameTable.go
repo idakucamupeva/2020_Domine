@@ -224,7 +224,7 @@ func play(plr *Player, num int, table *gameTable) bool{
 	}
 }
 
-func checkComputerMoves(plr *Player, table *gameTable, num int, dom *domino) bool {
+func checkComputerMoves(table *gameTable, num int, dom *domino) bool {
 	tryAdd := canBeAdded(table, dom)
 	if tryAdd == onStartPosition{
 		tmpDom := dom
@@ -290,7 +290,7 @@ func computerPlay(plr *Player, table *gameTable) bool{
 				pos = num
 			}
 		}
-		if checkComputerMoves(plr, table, pos, maxDom){
+		if checkComputerMoves(table, pos, maxDom){
 			return true
 		}
 	}
@@ -318,7 +318,7 @@ func computerPlay(plr *Player, table *gameTable) bool{
 				pos = num
 			}
 		}
-		if checkComputerMoves(plr, table, pos, maxDom){
+		if checkComputerMoves(table, pos, maxDom){
 			return true
 		}
 	}

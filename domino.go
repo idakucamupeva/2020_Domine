@@ -62,20 +62,28 @@ func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom do
 
 func (dom *domino)draw(renderer *sdl.Renderer, angle float64, a, b int32){
 	x := dom.x 
-	y := dom.y 
-	renderer.CopyEx(dom.tex, &sdl.Rect{W: dominoWidth, H: dominoHeight},
+	y := dom.y
+	err := renderer.CopyEx(dom.tex, &sdl.Rect{W: dominoWidth, H: dominoHeight},
 		&sdl.Rect{X: int32(x), Y: int32(y), W: dominoWidth, H: dominoHeight}, angle,
 		&sdl.Point{X: a, Y: b},
 		sdl.FLIP_NONE)
+	if err != nil {
+		fmt.Println("error: ", err)
+		return
+	}
 }
 
 func (dom *domino)drawHiddenDomino(renderer *sdl.Renderer){
 	x := dom.x 
 	y := dom.y 
-	renderer.CopyEx(dom.texHidden, &sdl.Rect{W: dominoWidth, H: dominoHeight},
+	err := renderer.CopyEx(dom.texHidden, &sdl.Rect{W: dominoWidth, H: dominoHeight},
 		&sdl.Rect{X: int32(x), Y: int32(y), W: dominoWidth, H: dominoHeight}, 90,
 		&sdl.Point{},
 		sdl.FLIP_NONE)
+	if err != nil {
+		fmt.Println("error: ", err)
+		return
+	}
 }
 
 func initDomino(){
@@ -121,7 +129,7 @@ func initComputerDomino(){
 
 
 //function returns who plays first
-func firstMove(plr1 Player, plr2 Player) int{
+func firstMove() int{
 
 	max1 := -1
 	max2 := -1

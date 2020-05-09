@@ -58,19 +58,17 @@ func start(){
 		"MATF Dominoes",
 		sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
 		width, height,
-		sdl.WINDOW_OPENGL |  sdl.WINDOW_SHOWN | sdl.WINDOW_RESIZABLE) // | sdl.WINDOW_FULLSCREEN_DESKTOP)
+		sdl.WINDOW_OPENGL |  sdl.WINDOW_SHOWN | sdl.WINDOW_RESIZABLE)
 	if err != nil {
 		fmt.Println("initializing window:", err)
 		return
 	}
-	defer window.Destroy()
 
 	renderer, err := sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
 	if err != nil {
 		fmt.Println("initializing renderer:", err)
 		return
 	}
-	defer renderer.Destroy()
 
 	//domino's number
 	var counter = 0
@@ -135,7 +133,7 @@ func start(){
 	var nextBtnTmpX = float64(width)*0.85+leftAndRightSize-17
 	var nextBtnTmpY = float64(550)
 
-	var playFirst = firstMove(player1, player2)
+	var playFirst = firstMove()
 
 
 	for {
@@ -213,14 +211,12 @@ func start(){
 							if player1.deck[i].assigned==1{
 								if play(&player1, i, &table) {
 									if isWon(&player1) {
-										fmt.Println("Player1 won")
 										player1Won = true
 									}
 									player1Active = !player1Active
 									if computerPlay(&player2, &table) {
 										oneDominoOnly = true
 										if isWon(&player2) {
-											fmt.Println("Player2 won")
 											player2Won = true
 										}
 										player1Active = !player1Active
@@ -235,8 +231,16 @@ func start(){
 				}
 			}
 
-			renderer.SetDrawColor(192, 192, 192, 192) 	//background
-			renderer.Clear()
+			err = renderer.SetDrawColor(192, 192, 192, 192) 	//background
+			if err != nil {
+				fmt.Println("error: ", err)
+				return
+			}
+			err = renderer.Clear()
+			if err != nil {
+				fmt.Println("error: ", err)
+				return
+			}
 
 			if player1Won {
 				if countingPoints{
@@ -254,14 +258,30 @@ func start(){
 
 
 			}else{
-				renderer.SetDrawColor(128, 0, 0, 0)//rectangles
-				renderer.FillRect(&sdl.Rect{X: width/16-20, Y: height-(height/4)-20, W: width/4*3, H: height/4})
-				renderer.FillRect(&sdl.Rect{X: width/16-20, Y: height/16-20, W: width/4*3, H: height/4})
+				err = renderer.SetDrawColor(128, 0, 0, 0)//rectangles
+				if err != nil {
+					fmt.Println("error: ", err)
+					return
+				}
+				err = renderer.FillRect(&sdl.Rect{X: width/16-20, Y: height-(height/4)-20, W: width/4*3, H: height/4})
+				if err != nil {
+					fmt.Println("error: ", err)
+					return
+				}
+				err = renderer.FillRect(&sdl.Rect{X: width/16-20, Y: height/16-20, W: width/4*3, H: height/4})
+				if err != nil {
+					fmt.Println("error: ", err)
+					return
+				}
 
 				leftBtn.drawButton(renderer, leftAndRightSize)
 				rightBtn.drawButton(renderer, leftAndRightSize)
 				nextBtn.drawButton(renderer, leftAndRightSize)
-				renderer.SetScale(0.7, 0.7)
+				err = renderer.SetScale(0.7, 0.7)
+				if err != nil {
+					fmt.Println("error: ", err)
+					return
+				}
 
 				bankBtn.drawButton(renderer, bankSize)
 
@@ -272,12 +292,24 @@ func start(){
 					if dom.assigned == 0 {
 						if leftDominoCounter>6 || rightDominoCounter>5{
 							dom.y = dom.y / 0.7
-							renderer.SetScale(0.4, 0.4)
+							err = renderer.SetScale(0.4, 0.4)
+							if err != nil {
+								fmt.Println("error: ", err)
+								return
+							}
 						}else{
-							renderer.SetScale(0.5, 0.5)
+							err = renderer.SetScale(0.5, 0.5)
+							if err != nil {
+								fmt.Println("error: ", err)
+								return
+							}
 						}
 						dom.draw(renderer, dom.rotation, dominoWidth/2, dominoHeight/2)
-						renderer.SetScale(0.7, 0.7)
+						err = renderer.SetScale(0.7, 0.7)
+						if err != nil {
+							fmt.Println("error: ", err)
+							return
+						}
 					}
 				}
 
@@ -289,12 +321,24 @@ func start(){
 					if dom.assigned == 0 {
 						if leftDominoCounter>6 || rightDominoCounter>5 {
 							dom.y = dom.y / 0.7
-							renderer.SetScale(0.4, 0.4)
+							err = renderer.SetScale(0.4, 0.4)
+							if err != nil {
+								fmt.Println("error: ", err)
+								return
+							}
 						}else{
-							renderer.SetScale(0.5, 0.5)
+							err = renderer.SetScale(0.5, 0.5)
+							if err != nil {
+								fmt.Println("error: ", err)
+								return
+							}
 						}
 						dom.draw(renderer, dom.rotation, dominoWidth/2, dominoHeight/2)
-						renderer.SetScale(0.7, 0.7)
+						err = renderer.SetScale(0.7, 0.7)
+						if err != nil {
+							fmt.Println("error: ", err)
+							return
+						}
 					}
 				}
 
@@ -306,7 +350,11 @@ func start(){
 			}
 
 
-			renderer.SetScale(1, 1)
+			err = renderer.SetScale(1, 1)
+			if err != nil {
+				fmt.Println("error: ", err)
+				return
+			}
 			renderer.Present()
 
 			previousMouseState = currentMouseState
