@@ -191,7 +191,6 @@ func start(){
 								oneDominoOnly = true
 								if computerPlay(&player2, &table) {
 									if isWon(&player2) {
-										fmt.Println("Player2 won")
 										player2Won = true
 									}
 									player1Active = true
