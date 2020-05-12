@@ -1,5 +1,7 @@
 # 2020_Traditional-dominoes-game
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/75efbce96cf34f65b612abd1dce0c9a4)](https://app.codacy.com/gh/matf-pp/2020_Domine?utm_source=github.com&utm_medium=referral&utm_content=matf-pp/2020_Domine&utm_campaign=Badge_Grade_Dashboard)
+
 Implementation of traditional dominoes table game in programming language GO using SDL2 graphics library.
 
 ## Prerequisites
