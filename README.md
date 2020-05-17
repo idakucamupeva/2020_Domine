@@ -7,19 +7,20 @@ Implementation of traditional dominoes table game in programming language GO usi
 ## Prerequisites
 
 Golang: <https://golang.org/doc/install>
+
 SDL2 binding for GO: <https://github.com/veandco/go-sdl2#installation>
 
 ## Building  
 Clone this repository:
-```
+```shell
 git clone https://github.com/matf-pp/2020_Domine.git
 ```
 Position to the folder you cloned and build project:
-```
+```shell
 go build
 ```
 And just run it:
-```bash
+```shell
 ./2020_Domine
 ```
 ### :video_game: Gameplay
