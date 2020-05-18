@@ -15,9 +15,9 @@ Clone this repository:
 ```shell
 git clone https://github.com/matf-pp/2020_Domine.git
 ```
-Position to the folder you cloned and build project:
+Position to the folder you cloned, move to src folder and build project:
 ```shell
-go build
+go build -o 2020_Domine
 ```
 And just run it:
 ```shell
