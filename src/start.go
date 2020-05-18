@@ -72,30 +72,30 @@ func start(){
 
 	//domino's number
 	var counter = 0
-	startStr := "BMPdominoes/"
+	startStr := "../BMPdominoes/"
 	for i:=0; i < 7; i++{
 		for j:=i; j < 7; j++{
 			startStr += strconv.Itoa(i) + "-" + strconv.Itoa(j) + ".bmp"
 			dominoTmp := newDomino(renderer, startStr, i, j)
-			dominoTmp.texHidden = textureFromBMP(renderer, "BMPdominoes/7-7.bmp")
+			dominoTmp.texHidden = textureFromBMP(renderer, "../BMPdominoes/7-7.bmp")
 			dominoesMap[counter] = dominoTmp
 			counter++
-			startStr = "BMPdominoes/"
+			startStr = "../BMPdominoes/"
 		}
 	}
 
 	//BUTTONS-textures
-	leftBtn := newButton(renderer, "img/leftBtn.bmp", float64(width)*0.85, float64(height)*0.9)
-	rightBtn := newButton(renderer, "img/rightBtn.bmp", float64(width)*0.85+leftAndRightSize+20, float64(height)*0.9)
-	nextBtn := newButton(renderer, "img/next.bmp", float64(width)*0.85+leftAndRightSize-17, 550)
-	bankBtn := newButton(renderer, "img/bank.bmp", (float64(width)/6*5)/0.7, float64(height)/7)
+	leftBtn := newButton(renderer, "../img/leftBtn.bmp", float64(width)*0.85, float64(height)*0.9)
+	rightBtn := newButton(renderer, "../img/rightBtn.bmp", float64(width)*0.85+leftAndRightSize+20, float64(height)*0.9)
+	nextBtn := newButton(renderer, "../img/next.bmp", float64(width)*0.85+leftAndRightSize-17, 550)
+	bankBtn := newButton(renderer, "../img/bank.bmp", (float64(width)/6*5)/0.7, float64(height)/7)
 
 	//final scene
-	player1WonScene1 := newFinalScene(renderer, "img/youWon1.bmp", 200, 50)
-	player1WonScene2 := newFinalScene(renderer, "img/youWon2.bmp", 200, 50)
+	player1WonScene1 := newFinalScene(renderer, "../img/youWon1.bmp", 200, 50)
+	player1WonScene2 := newFinalScene(renderer, "../img/youWon2.bmp", 200, 50)
 	
-	player2WonScene1 := newFinalScene(renderer, "img/youLost1.bmp", 200, 50)
-	player2WonScene2 := newFinalScene(renderer, "img/youLost2.bmp", 200, 50)
+	player2WonScene1 := newFinalScene(renderer, "../img/youLost1.bmp", 200, 50)
+	player2WonScene2 := newFinalScene(renderer, "../img/youLost2.bmp", 200, 50)
 	
 
 
