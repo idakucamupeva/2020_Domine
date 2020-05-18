@@ -212,14 +212,11 @@ func firstMove() int{
 		}
 	}
 
-	if max1 != max2 {
-		if max1 > max2{
-			return 1
-		}else{
-			return 2
-		}
+	
+	if max1 < max2{
+		return 2
 	}
-
+	
 	return 1
 
 }

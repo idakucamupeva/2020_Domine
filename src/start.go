@@ -45,6 +45,7 @@ var oneDominoOnly = true
 var player1Won = false  //player1 won signal
 var player2Won = false	//player2 won signal
 
+
 func start(){
 	//Initialization
 	err := sdl.Init(sdl.INIT_EVERYTHING)
@@ -54,6 +55,7 @@ func start(){
 	}
 
 	var window *sdl.Window
+
 	window, err = sdl.CreateWindow(
 		"MATF Dominoes",
 		sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
