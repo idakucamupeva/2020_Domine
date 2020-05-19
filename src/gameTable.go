@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//gameTable struct describes the current situation on the board - domino on left side and domino on right side 
 type gameTable struct{
 	left, right int
 }

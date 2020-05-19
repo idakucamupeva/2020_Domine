@@ -7,7 +7,7 @@ import (
 )
 
 
-//struct for all button used in game
+//Button struct describes all buttons used in game
 type Button struct{
 	tex *sdl.Texture
 	x, y float64

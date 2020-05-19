@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+//domino struct describes all dominoes in game
 type domino struct{
 	left, right int
 	assigned int

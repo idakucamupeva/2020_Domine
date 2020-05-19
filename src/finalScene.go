@@ -6,7 +6,7 @@ import(
 	
 )
 
-
+//FinalScene struct describes all final scenes (win and lose) used in game
 type FinalScene struct{
 	tex *sdl.Texture
 	x, y float64
