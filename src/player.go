@@ -1,6 +1,7 @@
 package main
 
 
+//struct for Players who play game
 type Player struct{
 	name string
 	isHuman bool

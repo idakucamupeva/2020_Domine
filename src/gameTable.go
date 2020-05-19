@@ -41,7 +41,7 @@ const(
 //adding domino on left side of the deck
 func addDominoOnLeft(table *gameTable, dom *domino) {
 
-	leftDominoCounter += 1
+	leftDominoCounter++
 
 	tmpLeft := table.left
 
@@ -80,7 +80,7 @@ func addDominoOnLeft(table *gameTable, dom *domino) {
 //adding domino on right side of the deck
 func addDominoOnRight(table *gameTable, dom *domino){
 
-	rightDominoCounter += 1
+	rightDominoCounter++
 
 	tmpRight := table.right
 	
@@ -309,9 +309,7 @@ func computerPlay(plr *Player, table *gameTable) bool{
 		}
 	}
 
-	if max == -1 {
-		return false
-	}else{
+	if max != -1 {
 		for num :=0; num< len(plr.deck); num++{
 			if maxDom == &plr.deck[num]{
 				pos = num
@@ -402,7 +400,7 @@ func addFromBank(table *gameTable){
 	if foundEmptyPlace==false{
 		dominoTmp.x = tablePositionX + (float64)(dominoCounter*dominoWidth/2)
 		dominoTmp.y = tablePositionY
-		dominoCounter += 1
+		dominoCounter++
 		currentIndex = len(player1.deck)
 		hasADominoFromBank[currentIndex] = true
 	}
@@ -471,7 +469,7 @@ func addDominoFromBankToComputer(table *gameTable){
 	if foundEmptyPlace==false{
 		dominoTmp.x = tablePositionXOpponent + (float64)(dominoCounterOpponent*dominoWidth/2)
 		dominoTmp.y = tablePositionYOpponent
-		dominoCounterOpponent += 1
+		dominoCounterOpponent++
 		currentIndex = len(player2.deck)
 		hasComputerDominoFromBank[currentIndex] = true
 	}

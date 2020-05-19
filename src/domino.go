@@ -130,7 +130,7 @@ func initComputerDomino(){
 
 func (plr *Player)maxDoubleDomino() int {
 
-	var max int = -1
+	max := -1
 
 	for _, dom := range plr.deck {
 		if dom.left == dom.right{
@@ -189,7 +189,7 @@ func firstMove() int{
 
 		if max1 > max2{
 			return 1
-		}else{
+		}else if max1 < max2{
 			return 2
 		}
 	}
