@@ -128,95 +128,70 @@ func initComputerDomino(){
 }
 
 
+func (plr *Player)maxDoubleDomino() int {
+
+	var max int = -1
+
+	for _, dom := range plr.deck {
+		if dom.left == dom.right{
+			if dom.left > max{
+				max = dom.left
+			}
+		}
+
+	}
+
+	fmt.Println(max)
+			
+
+	return max
+
+}
+
 //function returns who plays first
 func firstMove() int{
 
 	max1 := -1
 	max2 := -1
 
-	for _, dom := range player1.deck {
-		if dom.left == dom.right{
-			if dom.left > max1{
-				max1 = dom.left
-			}
-		}
 
+	max1 = player1.maxDoubleDomino()
+	max2 = player2.maxDoubleDomino()
+	
+
+	if max1 > max2{
+			return 1
+	}else if max1 < max2{
+			return 2
 	}
+	
 
+	for i:=6; i>0; i--{
 
-	for _, dom := range player2.deck {
-		if dom.left == dom.right{
-			if dom.left > max2{
-				max2 = dom.left
+		for _, dom := range player1.deck {
+			if dom.right == i{
+				if dom.left > max1{
+					max1 = dom.left
+				}
 			}
+	
 		}
-	}
+	
+	
+		for _, dom := range player2.deck {
+			if dom.right == i{
+				if dom.left > max2{
+					max2 = dom.left
+				}
+			}
+		}		
 
-	if max1 != max2 {
+
 		if max1 > max2{
 			return 1
 		}else{
 			return 2
 		}
 	}
-
-	max1 = -1
-	max2 = -1
-
-
-	for _, dom := range player1.deck {
-		if dom.right == 6{
-			if dom.left > max1{
-				max1 = dom.left
-			}
-		}
-
-	}
-
-
-	for _, dom := range player2.deck {
-		if dom.right == 6{
-			if dom.left > max2{
-				max2 = dom.left
-			}
-		}
-	}
-
-	if max1 != max2 {
-		if max1 > max2{
-			return 1
-		}else{
-			return 2
-		}
-	}
-
-	max1 = -1
-	max2 = -1
-
-
-	for _, dom := range player1.deck {
-		if dom.right == 5{
-			if dom.left > max1{
-				max1 = dom.left
-			}
-		}
-
-	}
-
-
-	for _, dom := range player2.deck {
-		if dom.right == 5{
-			if dom.left > max2{
-				max2 = dom.left
-			}
-		}
-	}
-
-	
-	if max1 < max2{
-		return 2
-	}
-	
-	return 1
-
+	return -1
 }

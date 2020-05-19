@@ -346,6 +346,7 @@ func start(){
 				for _, dom := range player2.deck {
 					if dom.assigned == 2{
 						dom.drawHiddenDomino(renderer)
+						
 					}
 				}
 			}
