@@ -6,7 +6,7 @@ import(
 	
 )
 
-//FinalScene struct describes all final scenes (win and lose) used in game
+//FinalScene struct describes all final scenes (won and lost) used in game
 type FinalScene struct{
 	tex *sdl.Texture
 	x, y float64
@@ -17,26 +17,10 @@ const(
 	finalSceneHeight = 600
 )
 
-func textureFromBMPFinal(renderer *sdl.Renderer, filename string) *sdl.Texture{
-	img, err := sdl.LoadBMP(filename)
-		if err != nil {
-			panic(fmt.Errorf("loading %v: %v", filename, err))
-		}
-
-	defer img.Free()
-	
-	tex, err := renderer.CreateTextureFromSurface(img)
-		if err != nil{
-			panic(fmt.Errorf("creating texture from %v: %v", filename, err))
-		}
-
-	return tex
-}
-
 
 //final scene constructor
 func newFinalScene(renderer *sdl.Renderer, filename string, x, y float64) (scene FinalScene){
-	scene.tex = textureFromBMPFinal(renderer, filename)
+	scene.tex = textureFromBMP(renderer, filename)
 	scene.x = x
 	scene.y = y
 

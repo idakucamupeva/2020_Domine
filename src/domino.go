@@ -29,21 +29,6 @@ var tablePositionY = float64(height-(height/4))/0.7
 var tablePositionXOpponent =  float64(width/16)/0.7
 var tablePositionYOpponent = float64(height/16)/0.7
 
-//Making texture from bmp picture
-func textureFromBMP(renderer *sdl.Renderer, filename string) *sdl.Texture{
-	img, err := sdl.LoadBMP(filename)
-		if err != nil {
-			panic(fmt.Errorf("loading %v: %v", filename, err))
-		}
-
-	defer img.Free()
-	
-	tex, err := renderer.CreateTextureFromSurface(img)
-		if err != nil{
-			panic(fmt.Errorf("creating texture from %v: %v", filename, err))
-		}
-	return tex
-}
 
 func newDomino(renderer *sdl.Renderer, filename string, left, right int) (dom domino){
 	dom.tex = textureFromBMP(renderer, filename)
